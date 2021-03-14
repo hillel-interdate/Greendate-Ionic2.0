@@ -1,48 +1,64 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>Subscription</ion-title>
-  </ion-toolbar>
+    <ion-toolbar>
+        <ion-title>Subscription</ion-title>
+    </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <div *ngIf="page" class="page">
-  <h1>{{ page.textBefore[0].title }}</h1>
-  <div class="text" *ngFor="let tb of page.textBefore">
-    <div *ngIf="tb.text && tb.text.length > 0" [innerHTML]="tb.text"></div>
-  </div>
-  <div class="subscriptions">
-    <div class="subscription" *ngFor="let payment of page.payments" (click)="subscribe(payment)">
-      <div class="wrap-pay">
-        <div class="chackbox"><span></span></div>
-        <div class="title">{{ payment.title }}</div>
-        <div class="price">₪{{ payment.amount }}</div>
-        <div class="description">{{ payment.text }}</div>
-        <div class="month-price">
-          <span class="dollar">₪</span><span>{{ payment.price }}</span>
-          <span class="month">{{ payment.text_price }}</span>
+    <div *ngIf="page" class="page">
+        <h1>{{ page.textBefore[0].title }}</h1>
+        <div class="text" *ngFor="let tb of page.textBefore">
+            <div *ngIf="tb.text && tb.text.length > 0" [innerHTML]="tb.text"></div>
         </div>
-      </div>
-    </div>
-  </div>
-    <div class="table-subs">
-      <div class="header-table">
-        <div class="cell"></div>
-        <div class="cell">מנוי</div>
-        <div class="cell">חבר</div>
-      </div>
-      <div class="body">
+        <div class="subscriptions">
+            <ng-container *ngIf="platform === 'android' else iosPayment">
+                <div class="subscription" *ngFor="let payment of page.payments" (click)="subscribe(payment)">
+                    <div class="wrap-pay">
+                        <div class="chackbox"><span></span></div>
+                        <div class="title">{{ payment.title }}</div>
+                        <div class="price">₪{{ payment.amount }}</div>
+                        <div class="description">{{ payment.text }}</div>
+                        <div class="month-price">
+                            <span class="dollar">₪</span><span>{{ payment.price }}</span>
+                            <span class="month">{{ payment.text_price }}</span>
+                        </div>
+                    </div>
+                </div>
+            </ng-container>
+            <ng-template #iosPayment>
+                <div class="subscription" *ngFor="let payment of page.payments" (click)="subscribeIos(payment)">
+                    <div class="wrap-pay">
+                        <div class="chackbox"><span></span></div>
+                        <div class="title">{{ payment.title }}</div>
+                        <div class="price">₪{{ payment.price }}</div>
+                        <div class="description">{{ payment.description }}</div>
+                        <div class="month-price">
+                            <span class="dollar">₪</span><span>{{ payment.price }}</span>
+                            <span class="month">{{ payment.text_price }}</span>
+                        </div>
+                    </div>
+                </div>
+            </ng-template>
+        </div>
+        <div class="table-subs">
+            <div class="header-table">
+                <div class="cell"></div>
+                <div class="cell">מנוי</div>
+                <div class="cell">חבר</div>
+            </div>
+            <div class="body">
 
-        <div class="line" *ngFor="let tt of page.tableTexts">
-          <div class="cell">{{ tt.title }}</div>
-          <div class="cell {{ (tt.pay ? ' check-red' : '') }}"></div>
-          <div class="cell{{ (tt.not_pay ? '  check-grey' : '') }}"></div>
+                <div class="line" *ngFor="let tt of page.tableTexts">
+                    <div class="cell">{{ tt.title }}</div>
+                    <div class="cell {{ (tt.pay ? ' check-red' : '') }}"></div>
+                    <div class="cell{{ (tt.not_pay ? '  check-grey' : '') }}"></div>
+                </div>
+
+            </div>
         </div>
 
-      </div>
+        <div class="text" *ngFor="let ta of page.textAfter">
+            <div *ngIf="ta.text && ta.text.length > 0" [innerHTML]="ta.text"></div>
+        </div>
     </div>
-
-    <div class="text" *ngFor="let ta of page.textAfter">
-      <div *ngIf="ta.text && ta.text.length > 0" [innerHTML]="ta.text"></div>
-    </div>
-  </div>
 </ion-content>

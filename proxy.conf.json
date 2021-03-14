@@ -1,0 +1,7 @@
+{
+  "/": {
+    "target": "https://www.greendate.co.il",
+    "secure": false,
+    "changeOrigin": true
+  }
+}
