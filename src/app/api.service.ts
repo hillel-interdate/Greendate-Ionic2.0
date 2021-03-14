@@ -4,12 +4,12 @@ import {Storage} from '@ionic/storage';
 import { HttpClient , HttpHeaders } from '@angular/common/http';
 import { DomSanitizer} from '@angular/platform-browser';
 import { Injectable } from '@angular/core';
-//import {RequestOptions} from "@angular/http";
-import {LoadingController,ToastController} from '@ionic/angular';
-import {SelectModalPage} from "./select-modal/select-modal.page";
-import {httpFactory} from "@angular/http/src/http_module";
-import {HttpRequest} from "@angular/common/http";
-import {Headers, RequestOptions} from "@angular/http";
+// import {RequestOptions} from "@angular/http";
+import {LoadingController, ToastController} from '@ionic/angular';
+import {SelectModalPage} from './select-modal/select-modal.page';
+import {httpFactory} from '@angular/http/src/http_module';
+import {HttpRequest} from '@angular/common/http';
+import {Headers, RequestOptions} from '@angular/http';
 
 
 
@@ -20,7 +20,7 @@ import {Headers, RequestOptions} from "@angular/http";
 })
 export class ApiQuery {
 
-  data:any = {};
+  data: any = {};
   url: any;
   headers: any;
   response: any;
@@ -44,30 +44,32 @@ export class ApiQuery {
               public http: HttpClient,
               private sanitizer: DomSanitizer) {
 
-    //export JAVA_HOME=`/usr/libexec/java_home -v 1.8.0_221`
-    //this.url = 'http://localhost:8100';
+    // export JAVA_HOME=`/usr/libexec/java_home -v 1.8.0_221`
+    // this.url = 'http://localhost:8100';
     this.url = 'https://www.greendate.co.il';
-    //this.url = 'http://10.0.0.6:8100';
+    // this.url = 'http://10.0.0.6:8100';
     this.footer = true;
 
   }
 
   safeHtml(html) {
     return this.sanitizer.bypassSecurityTrustHtml(html);
-    //return this.sanitizer.bypassSecurityTrustScript(html);
+    // return this.sanitizer.bypassSecurityTrustScript(html);
   }
 
   sendPhoneId(idPhone) {
   //  alert('in send id , api page, id: ' + JSON.stringify(idPhone));
    // alert('in send phone id from api page  ,will send this: ' + idPhone);
-    let data = JSON.stringify({phone_id: idPhone});
-    this.http.post(this.url + '/api/v2/phones', data ,this.setHeaders(true)).subscribe(data => {
+    const data = JSON.stringify({phone_id: idPhone});
+    // tslint:disable-next-line:no-shadowed-variable
+    this.http.post(this.url + '/api/v2/phones', data , this.setHeaders(true)).subscribe(data => {
      // alert('data after send id: ' + JSON.stringify(data));
-    }) , err=> console.log('error was in send phone: ' + err);
+    } , err => console.log(`error was in send phone:  ${err}`));
   }
 
   functiontofindIndexByKeyValue(arraytosearch, key, valuetosearch) {
-    for (var i = 0; i < arraytosearch.length; i++) {
+    for (let i = 0; i < arraytosearch.length; i++) {
+      // tslint:disable-next-line:triple-equals
       if (arraytosearch[i][key] == valuetosearch) {
         return i;
       }
@@ -76,18 +78,18 @@ export class ApiQuery {
   }
 
   async toastCreate(mess, duration = 60000) {
+    const buttons = duration === 60000 ? [{text: 'אישור', role: 'cancel' }] : [];
     const toast = await this.toastCtrl.create({
       message: mess,
-      showCloseButton: duration == 60000 ? true : false,
-      closeButtonText:  'אישור',
-      duration: duration,
+      buttons,
+      duration,
       animated: true
     });
     await toast.present();
   }
 
-    async showLoad(text = 'אנא המתן...'){
-      if(!this.isLoading) {
+    async showLoad(text = 'אנא המתן...') {
+      if (!this.isLoading) {
         this.isLoading = true;
         return await this.loadingCtrl.create({
           message: text,
@@ -102,7 +104,7 @@ export class ApiQuery {
     }
 
     async hideLoad() {
-      if(this.isLoading){
+      if (this.isLoading) {
         this.isLoading = false;
         return await this.loadingCtrl.dismiss();
       }
@@ -131,12 +133,12 @@ export class ApiQuery {
      */
   }
 
-  setHeaders(is_auth = false, username = '', password = '') {
+  setHeaders(isAuth = false, username = '', password = '') {
 
-    if (username !== ''){
+    if (username !== '') {
       this.username = decodeURIComponent(username);
     }
-    if (password !== ''){
+    if (password !== '') {
       this.password = decodeURIComponent(password);
     }
 
@@ -145,8 +147,10 @@ export class ApiQuery {
     myHeaders = myHeaders.append('Accept', '*/*');
     myHeaders = myHeaders.append('Access-Control-Allow-Origin', '*');
 
-    if (is_auth == true) {
-      myHeaders = myHeaders.append("Authorization", "Basic " + btoa(encodeURIComponent(this.username) + ':' + encodeURIComponent(this.password)));
+    // tslint:disable-next-line:triple-equals
+    if (isAuth == true) {
+      // tslint:disable-next-line:max-line-length
+      myHeaders = myHeaders.append('Authorization', 'Basic ' + btoa(encodeURIComponent(this.username) + ':' + encodeURIComponent(this.password)));
     }
     this.header = {
         headers: myHeaders
@@ -155,9 +159,10 @@ export class ApiQuery {
   }
 
 
+  // tslint:disable-next-line:use-life-cycle-interface
   ngAfterViewInit() {
     this.storage.get('user_data').then(data => {
-      if(data.username) {
+      if (data.username) {
         this.username = data.username;
         this.password = data.password;
       }

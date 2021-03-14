@@ -1,8 +1,8 @@
 import {Component} from '@angular/core';
-//import {NavController, NavParams, Nav} from '@ionic/angular';
+// import {NavController, NavParams, Nav} from '@ionic/angular';
 import {ApiQuery} from '../api.service';
-import {ActivatedRoute, Router} from "@angular/router";
-import {Location} from "@angular/common";
+import {ActivatedRoute, Router} from '@angular/router';
+import {Location} from '@angular/common';
 
 
 /*
@@ -25,15 +25,15 @@ export class PagePage {
               public router: Router) {
 
    // let id = navParams.get('id');
-    let id = this.router.getCurrentNavigation().extras.state.id;
+    const id = this.router.getCurrentNavigation().extras.state.id;
     console.log(id);
 
-    this.api.http.get(api.url + id, this.api.setHeaders(false)).subscribe((data:any) => {
+    this.api.http.get(api.url + id, this.api.setHeaders(false)).subscribe((data: any) => {
       this.page = data.page;
      // alert(this.page.title);
 
     }, err => {
-      console.log("Oops!");
+      console.log('Oops!');
     });
   }
 
