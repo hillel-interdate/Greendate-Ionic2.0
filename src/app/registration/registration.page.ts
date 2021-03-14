@@ -1,14 +1,14 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {DomSanitizer} from '@angular/platform-browser';
 import {ApiQuery} from '../api.service';
-//import {Http, Headers} from '@angular/http';
-import { RequestOptions} from '@angular/http';
-import {SelectModalPage} from "../select-modal/select-modal.page";
-import {ModalController} from "@ionic/angular";
-import {Router, NavigationExtras, ActivatedRoute} from "@angular/router";
-import {HttpHeaders} from "@angular/common/http";
-import {Events} from "@ionic/angular";
-import {IonContent} from "@ionic/angular";
+// import {Http, Headers} from '@angular/http';
+// import { RequestOptions} from '@angular/http';
+import {SelectModalPage} from '../select-modal/select-modal.page';
+import {ModalController} from '@ionic/angular';
+import {Router, NavigationExtras, ActivatedRoute} from '@angular/router';
+import {HttpHeaders} from '@angular/common/http';
+import {IonContent} from '@ionic/angular';
+import {EventsService} from '../events.service';
 
 
 /*
@@ -22,53 +22,54 @@ import {IonContent} from "@ionic/angular";
     selector: 'page-registration',
     templateUrl: 'registration.page.html',
     styleUrls: ['registration.page.scss'],
-    //providers: [Storage]
+    // providers: [Storage]
 })
 
 export class RegistrationPage implements OnInit {
 
     @ViewChild(IonContent) content: IonContent;
 
-    cityname: any = "";
+    cityname: any = '';
     data: any = {};
     usersChooses: any = {};
     form: any;
     err: any = {};
     errKeys: any;
     formKeys: any;
-    field_value: any;
-    user: any = {};//{ region: any, username: any, email: any, email_retype: any, area: any, neighborhood: any, zip_code: any, phone: any, occupation: any, about_me: any, looking_for: any };
+    // field_value: any;
+    user: any = {}; // { region: any, username: any, email: any, email_retype: any, area: any, neighborhood: any, zip_code: any,
+    // phone: any, occupation: any, about_me: any, looking_for: any };
     name: any;
     birth: any;
     allfields = '';
     facebook_id: any;
 
-    constructor(//public http: Http,
+    constructor(// public http: Http,
                 public api: ApiQuery,
                 public modalCtrl: ModalController,
                 public router: Router,
                 public route: ActivatedRoute,
-                public events: Events,
+                public events: EventsService,
                 private sanitizer: DomSanitizer) {}
 
 
     ngOnInit() {
 
-        this.api.http.post(this.api.url + '/open_api/v2/signs/ups/news.json', {}, this.api.setHeaders()).subscribe((res:any) => {
+        this.api.http.post(this.api.url + '/open_api/v2/signs/ups/news.json', {}, this.api.setHeaders()).subscribe((res: any) => {
             this.form = res.user.form;
             this.formKeys = Object.keys(this.form);
             this.form.agree.label = this.sanitizer.bypassSecurityTrustHtml(this.form.agree.label);
         }, err => {
-            console.log("Oops!");
+            console.log('Oops!', err);
         });
 
-        this.route.queryParams.subscribe((params:any) => {
-            let data = JSON.parse(params.params);
-            if(data.user) {
+        this.route.queryParams.subscribe((params: any) => {
+            const data = JSON.parse(params.params);
+            if (data.user) {
                // alert(data.user.facebook_id);
                // alert(JSON.stringify(this.user));
                 this.facebook_id = data.user.facebook_id;
-                //alert(JSON.stringify(this.user));
+                // alert(JSON.stringify(this.user));
                 // this.form.username.value = data.user.username;
                 // this.facebook_id = data.user.facebook_id;
             }
@@ -77,7 +78,7 @@ export class RegistrationPage implements OnInit {
     }
 
     isObject(val) {
-        return typeof val == 'object';
+        return typeof val === 'object';
     }
 
     isArray(val) {
@@ -93,19 +94,19 @@ export class RegistrationPage implements OnInit {
                 choices: field.choices,
                 title: field.label,
                 choseNow: this.usersChooses[fieldTitle],
-                search: fieldTitle == 'city' ? true : false
+                search: fieldTitle === 'city'
             }
         });
         await modal.present();
 
         modal.onDidDismiss().then(data => {
-             if(data.data) {
+             if (data.data) {
                 this.form[fieldTitle].value = data.data.value;
                 this.usersChooses[fieldTitle] = data.data.label;
-              ;
+
             }
         });
-        //field.name
+        // field.name
 
     }
 
@@ -120,14 +121,14 @@ export class RegistrationPage implements OnInit {
     onOpenKeyboard()  {
         $('.footerMenu').hide();
         $('.container').css({
-            'margin': '11px auto 197px!important'
+            margin: '11px auto 197px!important'
         });
     }
 
 
     onHideKeyboard() {
       $('.container').css({
-          'margin': '11px auto 69px!important'
+          margin: '11px auto 69px!important'
       });
       $('.footerMenu').show();
     }
@@ -140,10 +141,10 @@ export class RegistrationPage implements OnInit {
 
         let data: any;
 
-        if (this.form.step == 1) {
-            var date_arr = ['', '', ''];
+        if (this.form.step !== 1) {
+            let date_arr = ['', '', ''];
             console.log(this.birth);
-            if (typeof this.birth != 'undefined') {
+            if (typeof this.birth !== 'undefined') {
                 date_arr = this.birth.split('-');
                 console.log(date_arr);
             }
@@ -166,8 +167,8 @@ export class RegistrationPage implements OnInit {
 
             data = {
 
-                    //flow_signUpApi_instance: this.form.flow_signUpApi_instance.value,
-                    //flow_signUpApi_step: this.form.flow_signUpApi_step.value,
+                    // flow_signUpApi_instance: this.form.flow_signUpApi_instance.value,
+                    // flow_signUpApi_step: this.form.flow_signUpApi_step.value,
                     signUpOne: {
                         username: this.form.username.value,
                         email:  this.form.email.value,
@@ -184,18 +185,18 @@ export class RegistrationPage implements OnInit {
                         phone: this.form.phone.value,
                         agree: this.form.agree.value,
                         agreeSendEmails: this.form.agreeSendEmails.value,
-                        //_token: this.form._token.value
+                        // _token: this.form._token.value
                     }
 
             };
-            //if(this.form.flow_signUpApi_instance){
-                //data.flow_signUpApi_instance = this.form.flow_signUpApi_instance.value;
-                //data.flow_signUpApi_step = this.form.flow_signUpApi_step.value;
-            //}
+            // if(this.form.flow_signUpApi_instance){
+                // data.flow_signUpApi_instance = this.form.flow_signUpApi_instance.value;
+                // data.flow_signUpApi_step = this.form.flow_signUpApi_step.value;
+            // }
 
             data = JSON.stringify(data);
 
-        } else if (this.form.step == 2) {
+        } else if (this.form.step === 2) {
             console.log(this.form);
             console.log('this city' + JSON.stringify(this.form.city.value));
 
@@ -210,8 +211,8 @@ export class RegistrationPage implements OnInit {
             this.user.sexOrientation = this.form.sexOrientation.value;
 
             data = {
-                //flow_signUpApi_instance: this.form.flow_signUpApi_instance.value,
-                //flow_signUpApi_step: this.form.flow_signUpApi_step.value,
+                // flow_signUpApi_instance: this.form.flow_signUpApi_instance.value,
+                // flow_signUpApi_step: this.form.flow_signUpApi_step.value,
                 signUpTwo: {
                     relationshipStatus: this.form.relationshipStatus.value,
                     region: this.form.region.value,
@@ -222,12 +223,12 @@ export class RegistrationPage implements OnInit {
                     occupation: this.form.occupation.value,
                     purposes: this.form.purposes.value,
                     sexOrientation: this.form.sexOrientation.value,
-                    //_token: this.form._token.value
+                    // _token: this.form._token.value
                 }
             };
             data = JSON.stringify(data);
 
-        } else if (this.form.step == 3) {
+        } else if (this.form.step === 3) {
 
             this.user.about = this.form.about.value;
             this.user.looking = this.form.looking.value;
@@ -255,8 +256,8 @@ export class RegistrationPage implements OnInit {
 
 
             data = {
-                //flow_signUpApi_instance: this.form.flow_signUpApi_instance.value,
-                //flow_signUpApi_step: this.form.flow_signUpApi_step.value,
+                // flow_signUpApi_instance: this.form.flow_signUpApi_instance.value,
+                // flow_signUpApi_step: this.form.flow_signUpApi_step.value,
                 user: this.user,
                 signUpTwo: {
                     about: this.form.about.value,
@@ -282,23 +283,23 @@ export class RegistrationPage implements OnInit {
                     nutrition: this.form.nutrition.value,
                     veggieReasons: this.form.veggieReasons.value,
                     sport: this.form.sport.value,
-                    //_token: this.form._token.value
+                    // _token: this.form._token.value
                 }
             };
             data = JSON.stringify(data);
 
         }
        // alert(JSON.stringify(this.user));
-        this.api.http.post(this.api.url + '/open_api/v2/signs/ups/news.json', data, this.api.setHeaders()).subscribe((res:any) => {
+        this.api.http.post(this.api.url + '/open_api/v2/signs/ups/news.json', data, this.api.setHeaders()).subscribe((res: any) => {
             this.validate(res);
-        }), err => this.api.hideLoad();
+        }, () => this.api.hideLoad());
     }
 
 
     validate(response) {
 
         this.err = [];
-        if(parseInt(response.id) > 0){ //step 4
+        if (parseInt(response.id) > 0) { // step 4
 
             console.log(response, this.user);
             console.log(this.user.username, this.user.password);
@@ -307,72 +308,72 @@ export class RegistrationPage implements OnInit {
             this.api.setHeaders(true, this.user.username, this.user.password);
 
             this.api.storage.set('user_data', {
-                'username': this.user.username,
-                'password': this.user.password,
-                'status': 'login',
-                'user_id': response.id,
-                'user_photo': response.photo
+                username: this.user.username,
+                password: this.user.password,
+                status: 'login',
+                user_id: response.id,
+                user_photo: response.photo
             });
-            this.events.publish('status:login');
+            this.events.setStatus('login');
            // let that = this;
             this.api.storage.get('deviceToken').then((val) => {
                this.api.sendPhoneId(val);
            });
-            let data = {
+            const data = {
                // status: 'init',
                 username: this.user.username,
                 password: this.user.password
             };
             this.api.storage.set('', data);
 
-            let navigationExtras: NavigationExtras = {
+            const navigationExtras: NavigationExtras = {
                 queryParams: {
-                    'new_user': true
+                    new_user: true
                 }
             };
             this.router.navigate(['/change-photos'], navigationExtras);
 
 
 
-        } else if (typeof response.user.form.step != 'undefined' && response.user.form.step == (this.form.step + 1)) {
+        } else if (typeof response.user.form.step !== 'undefined' && response.user.form.step === (this.form.step + 1)) {
             console.log('in the valid if');
             this.form = response.user.form;
             console.log(this.form);
             this.formKeys = this.getKeys(this.form);
             console.log(this.form);
-            if((this.form.step == 2)) {
+            if ((this.form.step === 2)) {
                  // delete option gey for womans ond lesbit for mans
-                if(this.user.gender == 1){
-                 this.form.sexOrientation.choices.splice(2,1);
-                } else if(this.user.gender == 2){
+                if (this.user.gender === 1) {
+                 this.form.sexOrientation.choices.splice(2, 1);
+                } else if (this.user.gender === 2) {
                     this.form.sexOrientation.choices.splice(1, 1);
                 }
             }
 
-            //alert('will scroll to top');
+            // alert('will scroll to top');
             this.content.scrollToTop(0);
 
         } else {
             console.log('in the invaf=lid');
           //  if(this.form.step == response.user.form.step) {
-                if (this.form.step == 1) {
+            if (this.form.step === 1) {
                     response.user.form.password.first = this.form.password.first;
                     response.user.form.password.second = this.form.password.second;
                     response.user.form.agree = this.form.agree;
                     response.user.form.agreeSendEmails = this.form.agreeSendEmails;
-                } else if(this.form.step == 2){
+                } else if (this.form.step === 2) {
                     response.user.form.purposes = this.form.purposes;
-                } else if(this.form.step == 3){
+                } else if (this.form.step === 3) {
                     console.log('in the 3 step');
                     response.user.form.veggieReasons = this.form.veggieReasons;
                     response.user.form.interests = this.form.interests;
                     response.user.form.animals = this.form.animals;
                 }
-                this.form = response.user.form;
-                this.formKeys = this.getKeys(this.form);
-                setTimeout( () => {
+            this.form = response.user.form;
+            this.formKeys = this.getKeys(this.form);
+            setTimeout( () => {
                     console.log('in et timeout');
-                    let y = this.form.step == 3 ? $('.border-red').offset().top + 2100 : $('.border-red').offset().top ;
+                    const y = this.form.step === 3 ? $('.border-red').offset().top + 2100 : $('.border-red').offset().top ;
                     console.log(y);
                     // alert('will scroll to point');
                     this.content.scrollToPoint(null, y, 300);
@@ -382,10 +383,9 @@ export class RegistrationPage implements OnInit {
 
 
             this.err = response.user.errors.form.children;
-            if(this.err.length > 1) {
+            if (this.err.length > 1) {
                 this.errKeys = Object.keys(this.err);
-            }
-            else {
+            } else {
                 this.allfields = 'יש למלא את כל השדות המסומנים בכוכבית';
             }
             console.log(this.err);
@@ -398,12 +398,12 @@ export class RegistrationPage implements OnInit {
     }
 
     getPage(id) {
-        let navigationExtras: NavigationExtras = {
+        const navigationExtras: NavigationExtras = {
             state: {
-                id: id
+                id
             }
         };
-        //alert(id);
+        // alert(id);
         this.router.navigate(['/page'], navigationExtras);
     }
 
@@ -415,7 +415,7 @@ export class RegistrationPage implements OnInit {
         myHeaders = myHeaders.append('Accept', '*/*');
         myHeaders = myHeaders.append('Access-Control-Allow-Origin', '*');
 
-        let header = {
+        const header = {
             headers: myHeaders
         };
         return header;

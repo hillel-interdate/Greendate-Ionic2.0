@@ -2,16 +2,16 @@ import {Component, OnInit} from '@angular/core';
 import {ToastController} from '@ionic/angular';
 import {ApiQuery} from '../api.service';
 import 'rxjs/add/operator/catch';
-import {HttpHeaders} from "@angular/common/http";
-import {Router, ActivatedRoute, NavigationExtras} from "@angular/router";
+import {HttpHeaders} from '@angular/common/http';
+import {Router, ActivatedRoute, NavigationExtras} from '@angular/router';
 import { FingerprintAIO } from '@ionic-native/fingerprint-aio/ngx';
 import { Facebook, FacebookLoginResponse } from '@ionic-native/facebook/ngx';
 import * as $ from 'jquery';
-import {Events} from "@ionic/angular";
-import {AlertController} from "@ionic/angular";
+import {AlertController} from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
-import {Platform} from "@ionic/angular";
+import {Platform} from '@ionic/angular';
 import { Keyboard } from '@ionic-native/keyboard/ngx';
+import {EventsService} from '../events.service';
 
 
 @Component({
@@ -21,11 +21,11 @@ import { Keyboard } from '@ionic-native/keyboard/ngx';
   providers: [FingerprintAIO, Facebook]
 })
 
-export class LoginPage implements OnInit{
+export class LoginPage implements OnInit {
 
   form: any;
   errors: any;
-  header:any;
+  header: any;
   user: any = {id: '', name: ''};
   logout: any = false;
   fingerAuth: any;
@@ -34,9 +34,9 @@ export class LoginPage implements OnInit{
   constructor(
               public api: ApiQuery,
               private faio: FingerprintAIO,
-              public router:Router,
-              public events: Events,
-              public fb:Facebook,
+              public router: Router,
+              public events: EventsService,
+              public fb: Facebook,
               public alertCtrl: AlertController,
               public route: ActivatedRoute,
               public splashScreen: SplashScreen,
@@ -54,11 +54,11 @@ export class LoginPage implements OnInit{
 
     this.splashScreen.hide();
     this.api.showLoad();
-    this.api.http.get(this.api.url + '/open_api/v2/login', this.api.header).subscribe((data:any) => {
+    this.api.http.get(this.api.url + '/open_api/v2/login', this.api.header).subscribe((data: any) => {
       this.form = data;
-    },err => console.log(err));
+    }, err => console.log(err));
     this.route.queryParams.subscribe((params: any) => {
-      if(params && params.logout) {
+      if (params && params.logout) {
         this.api.setHeaders(false, null, null);
         this.api.username = 'noname';
         this.api.storage.remove('user_data');
@@ -75,7 +75,7 @@ export class LoginPage implements OnInit{
   }
 
   ionViewWillEnter() {
-    //alert('view');
+    // alert('view');
     this.api.pageName = 'LoginPage';
     $('.footerMenu').hide();
     this.api.storage.get('username').then((username) => {
@@ -86,36 +86,36 @@ export class LoginPage implements OnInit{
     this.api.hideLoad();
   }
 
-  loginFB(){
+  loginFB() {
     this.fb.getLoginStatus().then((
         res: FacebookLoginResponse) => {
       console.log('Logged into Facebook!', res);
-      if(res.status == 'connected'){
-        this.getFBData(res)
-      }else{
-        this.fb.login(['email','public_profile']).then((
+      if (res.status === 'connected') {
+        this.getFBData(res);
+      } else {
+        this.fb.login(['email', 'public_profile']).then((
             fbres: FacebookLoginResponse) => {
           console.log('Logged into Facebook!', fbres);
-          this.getFBData(fbres)
+          this.getFBData(fbres);
         }).catch(e => console.log('Error logging into Facebook', e));
       }
     }).catch(e => console.log('Error logging into Facebook', e));
   }
 
-  getFBData(status){
-    this.fb.api("/me?fields=email,first_name,last_name,gender,picture,id", ['email','public_profile']).then(
+  getFBData(status) {
+    this.fb.api('/me?fields=email,first_name,last_name,gender,picture,id', ['email', 'public_profile']).then(
         res => {
         //  alert(JSON.stringify(res));
           this.checkBFData(res);
-        }).catch(e => console.log('Error getData into Facebook '+ e));
+        }).catch(e => console.log('Error getData into Facebook ' + e));
   }
 
-  checkBFData(fbData){
+  checkBFData(fbData) {
     this.form.login.username.value = '';
     this.form.login.password.value = '';
-    let postData = JSON.stringify({facebook_id: fbData.id});
+    const postData = JSON.stringify({facebook_id: fbData.id});
     this.api.http.post(this.api.url + '/open_api/v2/logins.json', postData, this.setHeaders()).subscribe((data: any) => {
-      if(data.user.login == '1'){
+      if (data.user.login === '1') {
         this.api.storage.set('user_data', {
           username: data.user.username,
           password: data.user.password,
@@ -124,14 +124,14 @@ export class LoginPage implements OnInit{
           user_photo: data.user.photo
         });
         this.api.setHeaders(true, data.user.username, data.user.password);
-       let that = this;
+        const that = this;
         setTimeout( () => {
-          that.router.navigate(['/home']);
+          that.router.navigate(['/home']).then();
         }, 5000 );
         this.api.storage.get('deviceToken').then((deviceToken) => {
-          if (deviceToken) this.api.sendPhoneId(deviceToken);
+          if (deviceToken) { this.api.sendPhoneId(deviceToken); }
         });
-      }else{
+      } else {
         this.alertCtrl.create({
           header: this.form.login.facebook.pop_header,
           message: this.form.login.facebook.pop_message,
@@ -139,7 +139,8 @@ export class LoginPage implements OnInit{
             {
               text: this.form.login.facebook.pop_button,
               handler: () => {
-                let data = JSON.stringify({
+                // tslint:disable-next-line:no-shadowed-variable
+                const data = JSON.stringify({
                   user:
                   {
                     username: fbData.first_name + ' ' + fbData.last_name,
@@ -147,12 +148,12 @@ export class LoginPage implements OnInit{
                   },
                   step: 0
                 });
-                let navigationExtras: NavigationExtras = {
+                const navigationExtras: NavigationExtras = {
                   queryParams: {
                     params: data
                   }
                 };
-                this.router.navigate(['/registration'], navigationExtras);
+                this.router.navigate(['/registration'], navigationExtras).then();
               }
             },
             {
@@ -189,11 +190,11 @@ export class LoginPage implements OnInit{
   fingerAuthentication() {
     this.faio.show({
       clientId: 'Fingerprint-Demo',
-      //clientSecret: 'password', //Only necessary for Android
-      clientSecret: 'password', //Only necessary for Android
-      disableBackup:true,  //Only for Android(optional)
-      localizedFallbackTitle: 'Use Pin', //Only for iOS
-      localizedReason: 'כניסה לגרינדייט באמצעות טביעת אצבע' //Only for iOS
+      // clientSecret: 'password', //Only necessary for Android
+      clientSecret: 'password', // Only necessary for Android
+      disableBackup: true,  // Only for Android(optional)
+      localizedFallbackTitle: 'Use Pin', // Only for iOS
+      localizedReason: 'כניסה לגרינדייט באמצעות טביעת אצבע' // Only for iOS
     }).then((result: any) => {
           if (result) {
             this.api.storage.get('fingerAuth').then((val) => {
@@ -218,7 +219,7 @@ export class LoginPage implements OnInit{
     myHeaders = myHeaders.append('Access-Control-Allow-Origin', '*');
 
 
-    let header = {
+    const header = {
       headers: myHeaders
     };
     return header;
@@ -227,15 +228,15 @@ export class LoginPage implements OnInit{
 
   validate(response) {
     this.errors = '';
-    if(response.status) {
+    if (response.status) {
       this.api.isPay = response.isPay;
-      if (response.status != "not_activated") {
+      if (response.status !== 'not_activated') {
         this.api.storage.set('user_data', {
-          'username': response.username,
-          'password': this.form.login.password.value,
-          'status': response.status,
-          'user_id': response.id,
-          'user_photo': response.photo
+          username: response.username,
+          password: this.form.login.password.value,
+          status: response.status,
+          user_id: response.id,
+          user_photo: response.photo
         });
         this.api.storage.set('fingerAuth', {
           username: this.form.login.username.value,
@@ -244,30 +245,30 @@ export class LoginPage implements OnInit{
         });
         this.api.storage.set('username', this.form.login.username.value);
 
-        this.events.publish('status:login');
+        this.events.setStatus('login');
         this.api.setHeaders(true, response.username, this.form.login.password.value);
 
       }
 
-      if (response.status == "login") {
-        //alert(2);
-        this.api.data['params'] = 'login';
-        this.router.navigate(['/home']);
+      if (response.status === 'login') {
+        // alert(2);
+        this.api.data.params = 'login';
+        this.router.navigate(['/home']).then();
 
-      } else if (response.status == "no_photo") {
+      } else if (response.status === 'no_photo') {
         this.user.id = response.id;
 
-        this.api.toastCreate('אישור');
+        this.api.toastCreate('אישור').then();
 
-      } else if (response.status == "not_activated") {
-        this.api.toastCreate('אישור');
-        this.router.navigate(['/login']);
+      } else if (response.status === 'not_activated') {
+        this.api.toastCreate('אישור').then();
+        this.router.navigate(['/login']).then();
       }
     } else {
       this.errors = response.is_not_active ? this.form.errors.account_is_disabled : this.form.errors.bad_credentials;
     }
     this.api.storage.get('deviceToken').then((deviceToken) => {
-      if(deviceToken) this.api.sendPhoneId(deviceToken);
+      if (deviceToken) { this.api.sendPhoneId(deviceToken); }
     });
 
   }

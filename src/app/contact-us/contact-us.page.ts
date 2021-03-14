@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {ToastController} from '@ionic/angular';
 import {ApiQuery} from '../api.service';
-import {Location} from "@angular/common";
+import {Location} from '@angular/common';
 
 declare var $: any;
 
@@ -29,16 +29,16 @@ export class ContactUsPage {
                 public toastCtrl: ToastController) {
 
 
-        this.api.http.get(api.url + '/open_api/v2/contact', api.header).subscribe((data:any) => {
+        this.api.http.get(api.url + '/open_api/v2/contact', api.header).subscribe((data: any) => {
             this.form = data.form;
-            console.log(this.form)
+            console.log(this.form);
 
         }, err => {
-            console.log("Oops!");
+            console.log('Oops!');
         });
 
         this.api.storage.get('user_data').then(data => {
-            if(data.user_id) {
+            if (data.user_id) {
                 this.user_id = data.user_id;
                 this.logged_in = true;
             }
@@ -62,22 +62,22 @@ export class ContactUsPage {
             this.errors.email = 'כתובת אימייל לא תקינה';
             isValid = false;
         }
-        if (this.form.subject.value.trim() == '') {
+        if (this.form.subject.value.trim() === '') {
             this.errors.subject = 'נא להזין נושא פניה';
             isValid = false;
         }
-        if ( this.form.text.value.trim() == '') {
+        if ( this.form.text.value.trim() === '') {
             this.errors.text = 'נא להזין הודעה';
             isValid = false;
         }
 
         if (isValid) {
-            var params ={
+            const params = {
                 contact: {
                     email: this.user_id ? this.user_id : this.form.email.value,
                     text: this.form.text.value,
                     subject: this.form.subject.value
-                    //_token: this.form._token.value,
+                    // _token: this.form._token.value,
                 }
             };
 
@@ -87,22 +87,24 @@ export class ContactUsPage {
     }
 
     validate(response) {
-        this.errors.email= response.errors.form.children.email.errors;
+        this.errors.email = response.errors.form.children.email.errors;
         this.errors.subject = response.errors.form.children.subject.errors;
         this.errors.text = response.errors.form.children.text.errors;
 
-        if (response.send == true) {
+        if (response.send === true) {
 
-            this.form.email.value = "";
-            this.form.text.value = "";
-            this.form.subject.value = "";
+            this.form.email.value = '';
+            this.form.text.value = '';
+            this.form.subject.value = '';
 
             this.toastCtrl.create({
+                buttons: [{
+                    text: 'אישור',
+                    role: 'cancel'
+                }],
                 message: 'ההודעה נשלחה בהצלחה',
-                showCloseButton: true,
-                closeButtonText: 'אישור'
             }).then(toast => toast.present());
-        } else if(!this.errors){
+        } else if (!this.errors) {
             this.allfields = 'ooops!';
         }
     }
@@ -110,7 +112,7 @@ export class ContactUsPage {
 
     back() {
         this.navLocation.back();
-        setTimeout(function () {
+        setTimeout(function() {
             $('.scroll-content, .fixed-content').css({'margin-bottom': '57px'});
         }, 500);
     }

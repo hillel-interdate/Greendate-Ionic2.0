@@ -76,7 +76,7 @@ export class AppComponent implements AfterViewInit {
                 public push: Push,
                 public keyboard: Keyboard,
                 public market: Market,
-                private events: EventsService, ) {
+                private events: EventsService) {
 
 
         this.api.http.get(api.url + '/open_api/v2/menu', {}).subscribe((data: any) => {
@@ -126,8 +126,7 @@ export class AppComponent implements AfterViewInit {
         };
         this.menu.close().then(res => console.log(res));
         if (this.api.pageName === 'HomePage') {
-            // TODO find events and fix here
-            this.events.logo.publish('click');
+            this.events.setLogo('click');
         } else {
             this.router.navigate(['/home'], navigationExtras).then();
         }
@@ -601,7 +600,7 @@ export class AppComponent implements AfterViewInit {
                 }
             }
             if (this.menu_items[0].count < data.newMessagesNumber) {
-                this.events.messages.publish({type: 'new', data});
+                this.events.setMessages({type: 'new', data});
             }
             this.message = data;
             this.menu_items[2].count = data.newNotificationsNumber;
@@ -686,166 +685,164 @@ export class AppComponent implements AfterViewInit {
     ngAfterViewInit() {
         // this.keyboard.hide();
         // $(window).resize();
-        this.router.events.subscribe((val) => {
-            if (val instanceof NavigationEnd) {
-                $('.footerMenu').show();
-                this.getBanner();
+        this.router.events.pipe(filter(value => value instanceof NavigationEnd)).subscribe((val) => {
+            $('.footerMenu').show();
+            this.getBanner();
 
-                this.events.statistics.subscribe(eventName => {
-                    if (eventName === 'updated') {
-                        this.getStatistics();
-                    }
-                });
+            this.events.statistics.subscribe(eventName => {
+                if (eventName === 'updated') {
+                    this.getStatistics();
+                }
+            });
+            setTimeout(() => {
+                this.keyboard.hide();
                 setTimeout(() => {
-                    this.keyboard.hide();
-                    setTimeout(() => {
-                        $('ion-content').css({height: '100%'});
-                    }, 100);
-                    setTimeout(() => {
-                        $('ion-content').css({height: '101%'});
-                    }, 200);
-                    setTimeout(() => {
-                        $('ion-content').css({height: '100%'});
-                    }, 300);
-
-                }, 200);
-
-                const that = this;
-                window.addEventListener('native.keyboardshow', () => {
-                    console.log('keyboardshow');
-                    $('.link-banner').hide();
-                    $('.footerMenu, .back-btn').hide();
-                    $('.back-btn').hide();
-
-
-                    if (that.api.pageName === 'DialogPage') {
-                        $('.banner').hide();
-
-                        setTimeout(() => {
-                            $('.ios .user-block').css({
-                                'margin-top': '235px'
-                            });
-                        }, 200);
-                    } else {
-                        $('.banner').show();
-                        setTimeout(() => {
-                            $('ion-content').css({'margin-bottom': '0px'});
-                        }, 200);
-
-                    }
-
-                    if (that.api.pageName === 'EditProfilePage') {
-                        console.log('if uf edit page');
-                        $('.container').css({
-                            margin: '0 0 197px!important'
-                        });
-                    } else if (that.api.pageName === 'ProfilePage') {
-                        console.log('if uf profile page');
-                        $('.container').css({'margin-bottom': '32px'});
-                        $('.abuse-form').css({'padding-bottom': 0});
-                        $('.content').css({'padding-bottom': 0});
-                    }
-
-                });
-
-
-                window.addEventListener('native.keyboardhide', () => {
-                    // let page = el.nav.getActive();
-                    // $('.footerMenu, .back-btn').show();
                     $('ion-content').css({height: '100%'});
-                    that.bannerStatus();
-                    // that.keyboard.hide();
-                    if (that.api.pageName === 'DialogPage') {
-                        $('.back-btn').show();
-                        $('.footerMenu').hide();
-                        setTimeout(() => {
-                            $('.ios .user-block').css({
-                                'margin-top': '27px'
-                            });
-                        }, 600);
-                    } else {
-                        $('.footerMenu, .back-btn').show();
-                        setTimeout(() => {
-                            $('.scroll-content, .fixed-content').css({'margin-bottom': '0px'});
-                        }, 500);
-                    }
-                    if (that.api.pageName === 'EditProfilePage') {
-                        $('.container').css({
-                            margin: '0 0 69px!important'
+                }, 100);
+                setTimeout(() => {
+                    $('ion-content').css({height: '101%'});
+                }, 200);
+                setTimeout(() => {
+                    $('ion-content').css({height: '100%'});
+                }, 300);
+
+            }, 200);
+
+            const that = this;
+            window.addEventListener('native.keyboardshow', () => {
+                console.log('keyboardshow');
+                $('.link-banner').hide();
+                $('.footerMenu, .back-btn').hide();
+                $('.back-btn').hide();
+
+
+                if (that.api.pageName === 'DialogPage') {
+                    $('.banner').hide();
+
+                    setTimeout(() => {
+                        $('.ios .user-block').css({
+                            'margin-top': '235px'
                         });
-                    } else if (that.api.pageName === 'ProfilePage') {
-                        $('.container').css({'margin-bottom': '32px'});
-                        $('.abuse-form').css({'padding-bottom': 0});
-                        $('.content').css({'padding-bottom': 0});
-                    }
+                    }, 200);
+                } else {
+                    $('.banner').show();
+                    setTimeout(() => {
+                        $('ion-content').css({'margin-bottom': '0px'});
+                    }, 200);
 
-                });
-
-
-                if (this.api.pageName === 'HomePage' && this.interval === false) {
-                    $('.link-banner').show();
-                    this.interval = true;
-                    this.getBingo();
-                } else if (this.api.pageName === 'HomePage') {
-                    if (this.api.status !== '') {
-                        this.status = this.api.status;
-                    }
-                } else if (this.api.pageName === 'LoginPage') {
-                    clearInterval(this.interval);
-                    this.interval = false;
-                    this.avatar = '';
-                    this.menu_items = this.menu_items_logout;
-                    this.is_login = false;
                 }
 
+                if (that.api.pageName === 'EditProfilePage') {
+                    console.log('if uf edit page');
+                    $('.container').css({
+                        margin: '0 0 197px!important'
+                    });
+                } else if (that.api.pageName === 'ProfilePage') {
+                    console.log('if uf profile page');
+                    $('.container').css({'margin-bottom': '32px'});
+                    $('.abuse-form').css({'padding-bottom': 0});
+                    $('.content').css({'padding-bottom': 0});
+                }
 
-                // this.api.setHeaders(true);
+            });
 
+
+            window.addEventListener('native.keyboardhide', () => {
+                // let page = el.nav.getActive();
+                // $('.footerMenu, .back-btn').show();
+                $('ion-content').css({height: '100%'});
+                that.bannerStatus();
+                // that.keyboard.hide();
+                if (that.api.pageName === 'DialogPage') {
+                    $('.back-btn').show();
+                    $('.footerMenu').hide();
+                    setTimeout(() => {
+                        $('.ios .user-block').css({
+                            'margin-top': '27px'
+                        });
+                    }, 600);
+                } else {
+                    $('.footerMenu, .back-btn').show();
+                    setTimeout(() => {
+                        $('.scroll-content, .fixed-content').css({'margin-bottom': '0px'});
+                    }, 500);
+                }
+                if (that.api.pageName === 'EditProfilePage') {
+                    $('.container').css({
+                        margin: '0 0 69px!important'
+                    });
+                } else if (that.api.pageName === 'ProfilePage') {
+                    $('.container').css({'margin-bottom': '32px'});
+                    $('.abuse-form').css({'padding-bottom': 0});
+                    $('.content').css({'padding-bottom': 0});
+                }
+
+            });
+
+
+            if (this.api.pageName === 'HomePage' && this.interval === false) {
+                $('.link-banner').show();
+                this.interval = true;
+                this.getBingo();
+            } else if (this.api.pageName === 'HomePage') {
+                if (this.api.status !== '') {
+                    this.status = this.api.status;
+                }
+            } else if (this.api.pageName === 'LoginPage') {
+                clearInterval(this.interval);
+                this.interval = false;
+                this.avatar = '';
+                this.menu_items = this.menu_items_logout;
+                this.is_login = false;
+            }
+
+
+            // this.api.setHeaders(true);
+
+            // tslint:disable-next-line:no-shadowed-variable
+            this.api.storage.get('user_data').then((val) => {
+                if (val) {
+                    if (this.status === '') {
+                        this.status = val.status;
+                    }
+                    this.checkStatus();
+                    if (!val.status) {
+                        this.menu_items = this.menu_items_logout;
+                        this.is_login = false;
+                        clearInterval(this.interval);
+                        this.interval = false;
+                    } else {
+                        this.is_login = true;
+                        this.menu_items = this.menu_items_login;
+                        this.getStatistics();
+                    }
+
+
+                    if (this.api.pageName === 'HomePage') {
+                        $('.link-banner').show();
+                    } else if (this.api.pageName === 'LoginPage') {
+                        $('.link-banner').hide();
+                    }
+                    this.bannerStatus();
+
+                }
+            });
+
+
+            setTimeout(() => {
                 // tslint:disable-next-line:no-shadowed-variable
-                this.api.storage.get('user_data').then((val) => {
-                    if (val) {
-                        if (this.status === '') {
-                            this.status = val.status;
-                        }
-                        this.checkStatus();
-                        if (!val.status) {
-                            this.menu_items = this.menu_items_logout;
+                this.api.storage.get('user_data').then(val => {
+                    if (!val) {
+                        if (this.api.pageName !== 'PasswordRecoveryPage' && this.api.pageName !== 'RegistrationPage' &&
+                            this.api.pageName !== 'PagePage' && this.api.pageName !== 'ContactUsPage') {
+                            this.router.navigate(['/login']).then();
                             this.is_login = false;
+                            this.menu_items = this.menu_items_logout;
                             clearInterval(this.interval);
-                            this.interval = false;
-                        } else {
-                            this.is_login = true;
-                            this.menu_items = this.menu_items_login;
-                            this.getStatistics();
                         }
-
-
-                        if (this.api.pageName === 'HomePage') {
-                            $('.link-banner').show();
-                        } else if (this.api.pageName === 'LoginPage') {
-                            $('.link-banner').hide();
-                        }
-                        this.bannerStatus();
-
                     }
                 });
-
-
-                setTimeout(() => {
-                    // tslint:disable-next-line:no-shadowed-variable
-                    this.api.storage.get('user_data').then(val => {
-                        if (!val) {
-                            if (this.api.pageName !== 'PasswordRecoveryPage' && this.api.pageName !== 'RegistrationPage' &&
-                                this.api.pageName !== 'PagePage' && this.api.pageName !== 'ContactUsPage') {
-                                this.router.navigate(['/login']).then();
-                                this.is_login = false;
-                                this.menu_items = this.menu_items_logout;
-                                clearInterval(this.interval);
-                            }
-                        }
-                    });
-                }, 900);
-            }
+            }, 900);
         });
     }
 }

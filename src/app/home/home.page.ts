@@ -1,20 +1,21 @@
 import {Component, ViewChild, OnInit, ElementRef} from '@angular/core';
-import {ToastController, Events, ModalController} from '@ionic/angular';
+import {ToastController, ModalController} from '@ionic/angular';
 import {ApiQuery} from '../api.service';
-import {Geolocation } from '@ionic-native/geolocation/ngx'
-import {Router, ActivatedRoute, NavigationEnd, NavigationExtras} from "@angular/router";
-import {IonInfiniteScroll} from "@ionic/angular";
-import {IonContent} from "@ionic/angular";
-import {Platform} from "@ionic/angular";
-import { SplashScreen } from '@ionic-native/splash-screen/ngx';
-
-
+import {Geolocation} from '@ionic-native/geolocation/ngx';
+import {Router, ActivatedRoute, NavigationEnd, NavigationExtras} from '@angular/router';
+import {IonInfiniteScroll} from '@ionic/angular';
+import {IonContent} from '@ionic/angular';
+import {Platform} from '@ionic/angular';
+import {SplashScreen} from '@ionic-native/splash-screen/ngx';
+import {EventsService} from '../events.service';
+import {filter} from 'rxjs/operators';
+import {Subscription} from 'rxjs';
 
 
 @Component({
-  selector: 'page-home',
-  styleUrls: ['./home.page.scss'],
-  templateUrl: 'home.page.html',
+    selector: 'page-home',
+    styleUrls: ['./home.page.scss'],
+    templateUrl: 'home.page.html',
 })
 export class HomePage {
 
@@ -25,7 +26,7 @@ export class HomePage {
     list: any;
     action: any;
     offset: any;
-    //page_counter: any;
+    // page_counter: any;
     loader: any = true;
     username: any;
     password: any;
@@ -40,12 +41,13 @@ export class HomePage {
     scrolling = false;
     clicked: any;
     subscription: any;
+    private logoSubscription: Subscription;
 
     constructor(public api: ApiQuery,
                 public route: ActivatedRoute,
                 public router: Router,
                 public geolocation: Geolocation,
-                public events: Events,
+                public events: EventsService,
                 public splashScreen: SplashScreen,
                 public platform: Platform) {
 
@@ -61,16 +63,16 @@ export class HomePage {
                 this.content.scrollToTop(0);
             } else {
                 this.params = {
-                    action: "search",
-                    filter: this.api.data['filter'] ? this.api.data['filter'] : 'new',
-                    list: "",
+                    action: 'search',
+                    filter: this.api.data.filter ? this.api.data.filter : 'new',
+                    list: '',
                     page: 1
-                }
+                };
             }
 
             this.blocked_img = false;
             this.params_str = JSON.stringify(this.params);
-            if (this.params.list == 'black' || this.params.list == 'favorited') {
+            if (this.params.list === 'black' || this.params.list === 'favorited') {
                 this.blocked_img = true;
             }
 
@@ -81,7 +83,6 @@ export class HomePage {
             this.getLocation();
 
         });
-
 
 
         this.api.storage.get('deviceToken').then(token => {
@@ -97,46 +98,46 @@ export class HomePage {
 
     ionViewWillEnter() {
         this.api.pageName = 'HomePage';
-
-        this.events.subscribe('logo:click', () => {
-
-            if(this.params.filter == 'new') {
-                this.content.scrollToTop(200);
-            } else {
-                this.blocked_img = false;
-                this.params = {
-                    action: 'search',
-                    filter: 'new', page: 1,
-                    list: ''
-                };
-                this.router.navigate(['/home', this.params]);
-                this.params_str = JSON.stringify(this.params);
-                this.getUsers();
-            }
-        });
+        this.logoSubscription = this.events.logo
+            .pipe(filter(eventType => eventType === 'click'))
+            .subscribe(eventType => {
+                if (this.params.filter === 'new') {
+                    this.content.scrollToTop(200).then();
+                } else {
+                    this.blocked_img = false;
+                    this.params = {
+                        action: 'search',
+                        filter: 'new', page: 1,
+                        list: ''
+                    };
+                    this.router.navigate(['/home', this.params]).then();
+                    this.params_str = JSON.stringify(this.params);
+                    this.getUsers();
+                }
+            });
     }
 
     ionViewWillLeave() {
-        this.events.unsubscribe('logo:click');
+        this.logoSubscription.unsubscribe();
     }
 
     itemTapped(user) {
         console.log(user);
-        if (this.scrolling == false) {
-             let navigationExtras: NavigationExtras = {
-                 queryParams: {
-                     data: JSON.stringify({
-                         user: user
-                     })
-                 }
-             }
+        if (this.scrolling === false) {
+            const navigationExtras: NavigationExtras = {
+                queryParams: {
+                    data: JSON.stringify({
+                        user
+                    })
+                }
+            };
 
-             this.router.navigate(['/profile'], navigationExtras);
+            this.router.navigate(['/profile'], navigationExtras);
         }
     }
 
     filterStatus() {
-       this.options.filter = this.options.filter === 1 ? 0 : 1;
+        this.options.filter = this.options.filter === 1 ? 0 : 1;
 
         // if(this.options.filter == 1) {
         //     this.options.filter = 0;
@@ -148,27 +149,28 @@ export class HomePage {
         //     // $('.ion-list').css({
         //     //     'height': '95%'
         //     // });
-        //}
+        // }
 
     }
 
     toDialog(user) {
-        this.api.data['user'] = user;
+        this.api.data.user = user;
         this.router.navigate(['/dialog']);
     }
 
     addLike(user) {
 
-        if (user.isAddLike == false) {
+        if (user.isAddLike === false) {
 
             user.isAddLike = true;
             this.api.toastCreate(' עשית לייק ל' + user.username, 2500);
 
-            let params = JSON.stringify({
+            const params = JSON.stringify({
                 toUser: user.id,
             });
 
-            this.api.http.post(this.api.url + '/api/v2/likes/' + user.id, params, this.api.setHeaders(true, this.username, this.password)).subscribe(data => {
+            this.api.http.post(this.api.url + '/api/v2/likes/' + user.id, params,
+                this.api.setHeaders(true, this.username, this.password)).subscribe(data => {
             }, err => {
             });
         } else {
@@ -181,7 +183,7 @@ export class HomePage {
 
         let params;
 
-        if (user.isAddBlackListed == false && bool == true) {
+        if (user.isAddBlackListed === false && bool === true) {
 
             user.isAddBlackListed = true;
 
@@ -191,7 +193,7 @@ export class HomePage {
                 action: 'delete'
             };
 
-        } else if (user.isAddBlackListed == true && bool == false) {
+        } else if (user.isAddBlackListed === true && bool === false) {
 
             user.isAddBlackListed = false;
 
@@ -201,37 +203,37 @@ export class HomePage {
             };
         }
 
-        if (this.users.length == 1) {
+        if (this.users.length === 1) {
             this.user_counter = 0;
         }
 
         // Remove user from list
         this.users.splice(this.users.indexOf(user), 1);
-        this.events.publish('statistics:updated');
+        this.events.setStatistics('updated');
 
 
         this.api.http.post(this.api.url + '/api/v2/lists/' + user.id, params, this.api.setHeaders(true)).subscribe((data: any) => {
-            this.loader =  true;
+            this.loader = true;
             this.api.toastCreate(data.success, 2500);
             console.log('in there');
-            if(data.users.length >= 9) {
+            if (data.users.length >= 9) {
                 this.loader = false;
-            }  
+            }
             this.params.page = 1;
         });
     }
 
     addFavorites(user, bool = false) {
-
-        if (user.isAddFavorite == false) {
+        let params = '';
+        if (user.isAddFavorite === false) {
             user.isAddFavorite = true;
 
-            var params = JSON.stringify({
+            params = JSON.stringify({
                 list: 'Favorite'
             });
         } else {
             user.isAddFavorite = false;
-            var params = JSON.stringify({
+            params = JSON.stringify({
                 list: 'Favorite',
                 action: 'delete'
             });
@@ -243,7 +245,7 @@ export class HomePage {
         }
         this.api.http.post(this.api.url + '/api/v2/lists/' + user.id, params, this.api.setHeaders(true)).subscribe((data: any) => {
             this.api.toastCreate(data.success, 2500);
-            this.events.publish('statistics:updated');
+            this.events.setStatistics('updated');
         });
 
     }
@@ -255,7 +257,7 @@ export class HomePage {
 
     sortBy() {
         this.params.filter = this.filter;
-        this.api.data['filter'] = this.filter;
+        this.api.data.filter = this.filter;
         this.loader = this.users.length < 10 ? false : true;
         this.params.page = 1;
         this.params_str = JSON.stringify(this.params);
@@ -263,7 +265,7 @@ export class HomePage {
         if (this.clicked) {
             this.content.scrollToTop(500);
             console.log('users run from sort');
-           //alert('clickes');
+            // alert('clickes');
             this.getUsers();
             this.clicked = false;
         }
@@ -271,40 +273,39 @@ export class HomePage {
     }
 
     getUsers(fromSubscribe = false) {
-     //   alert('in get');
+        //   alert('in get');
 
 
         this.splashScreen.hide();
-        if( !this.api.back ) {
+        if (!this.api.back) {
             this.api.showLoad();
 
-        this.api.http.post(this.api.url + '/api/v2/users/results', this.params_str, this.api.header).subscribe((data: any) => {
-            console.log(data);
+            this.api.http.post(this.api.url + '/api/v2/users/results', this.params_str, this.api.header).subscribe((data: any) => {
+                console.log(data);
 
-            this.users = data.users;
-            this.texts = data.texts;
+                this.users = data.users;
+                this.texts = data.texts;
 
-            this.user_counter = data.users.length;
-            this.form_filter = data.filters;
-            this.filter = data.filter;
-            if (data.users.length < 10) {
-                this.loader = false;
-            } else {
-                this.loader = true;
-            }
-            this.api.hideLoad();
-            this.content.scrollToTop(0);
-        }), err => this.api.hideLoad();
+                this.user_counter = data.users.length;
+                this.form_filter = data.filters;
+                this.filter = data.filter;
+                if (data.users.length < 10) {
+                    this.loader = false;
+                } else {
+                    this.loader = true;
+                }
+                this.api.hideLoad();
+                this.content.scrollToTop(0);
+            }, err => this.api.hideLoad());
 
         } else {
             this.api.hideLoad();
         }
 
 
-
         setTimeout(() => {
-          this.api.hideLoad()
-        }, 5000)
+            this.api.hideLoad();
+        }, 5000);
 
     }
 
@@ -321,16 +322,19 @@ export class HomePage {
         // this.content.scrollToTop(0);
         if (this.loader) {
             this.params.page++;
-            if (!this.params.page) this.params.page = 2;
+            if (!this.params.page) {
+                this.params.page = 2;
+            }
             this.params_str = JSON.stringify(this.params);
-            this.api.http.post(this.api.url + '/api/v2/users/results', this.params_str, this.api.setHeaders(true)).subscribe((data: any) => {
+            this.api.http.post(this.api.url + '/api/v2/users/results', this.params_str,
+                this.api.setHeaders(true)).subscribe((data: any) => {
                 console.log('user data');
                 console.log(data);
                 if (data.users.length < 10) {
                     this.loader = false;
                 }
 
-                for (let person of data.users) {
+                for (const person of data.users) {
                     this.users.push(person);
                 }
             });
@@ -348,14 +352,12 @@ export class HomePage {
     endscroll(event) {
         console.log('in end scroll');
         // this.moreUsers();
-        var that = this;
-        setTimeout(function () {
+        setTimeout(() => {
             $('.my-invisible-overlay').hide();
-            that.scrolling = false;
+            this.scrolling = false;
         }, 4000);
 
     }
 
 
-
-  }
+}
