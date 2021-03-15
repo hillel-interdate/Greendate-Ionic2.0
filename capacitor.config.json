@@ -1,7 +1,0 @@
-{
-  "appId": "il.co.greendate",
-  "appName": "Greendate",
-  "bundledWebRuntime": false,
-  "npmClient": "npm",
-  "webDir": "www"
-}
