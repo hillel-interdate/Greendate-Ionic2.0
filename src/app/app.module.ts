@@ -17,7 +17,7 @@ import {LoadingController} from '@ionic/angular';
 import {Geolocation} from '@ionic-native/geolocation/ngx';
 import {Push} from '@ionic-native/push/ngx';
 import {FileTransfer} from '@ionic-native/file-transfer/ngx';
-import {HttpModule} from '@angular/http';
+import {HttpClientModule as HttpModule} from '@angular/common/http';
 import {ImagePicker} from '@ionic-native/image-picker/ngx';
 import {EventsService} from './events.service';
 
