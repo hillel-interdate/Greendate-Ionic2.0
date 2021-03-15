@@ -2,12 +2,8 @@ import {Storage} from '@ionic/storage';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {DomSanitizer} from '@angular/platform-browser';
 import {Injectable, isDevMode} from '@angular/core';
-// import {RequestOptions} from "@angular/http";
 import {LoadingController, ToastController} from '@ionic/angular';
-import {SelectModalPage} from './select-modal/select-modal.page';
-import {httpFactory} from '@angular/http/src/http_module';
-import {HttpRequest} from '@angular/common/http';
-import {Headers, RequestOptions} from '@angular/http';
+
 
 
 @Injectable({
@@ -42,7 +38,8 @@ export class ApiQuery {
         // export JAVA_HOME=`/usr/libexec/java_home -v 1.8.0_221`
         if (isDevMode()) {
             // console.log('devmode');
-            this.url = 'http://localhost:8100';
+            // this.url = 'http://localhost:8100';
+            this.url = 'https://www.greendate.co.il';
         } else {
             // console.log('not dev mode');
             this.url = 'https://www.greendate.co.il';

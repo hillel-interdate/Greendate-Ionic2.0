@@ -1,11 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import {ApiQuery} from '../api.service';
-import {PagePage} from '../page/page.page';
 import {ImagePicker, ImagePickerOptions} from '@ionic-native/image-picker/ngx';
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer/ngx';
-import {ActionSheetController, AlertController} from "@ionic/angular";
-import {Router, ActivatedRoute} from "@angular/router";
+import {ActionSheetController, AlertController} from '@ionic/angular';
+import {Router, ActivatedRoute} from '@angular/router';
 import { ChangeDetectorRef } from '@angular/core'
  /*
  Generated class for the ChangePhotos page.
@@ -26,7 +25,7 @@ export class ChangePhotosPage implements OnInit{
   imagePath: any;
   username: any;
   password: any;
-  new_user: boolean = false;
+  new_user = false;
   checkImages: any;
 
   dataPage: { noPhoto: any, texts: any, photos: Array<{ _id: string, face: string, isValid: string, isMain: string, url: any}> };
@@ -47,6 +46,7 @@ export class ChangePhotosPage implements OnInit{
   ngOnInit() {
     this.api.pageName = 'ChangePhotosPage';
 
+    // tslint:disable-next-line:no-shadowed-variable
       this.api.storage.get('user_data').then(data => {
          if(data) {
              this.username = data.username;
@@ -56,13 +56,13 @@ export class ChangePhotosPage implements OnInit{
 
     this.route.queryParams.subscribe((params:any) => {
       console.log(params);
-      this.new_user = params.new_user ? true : false;
+      this.new_user = !!params.new_user;
     });
 
-    let data = this.api.data;
+    const data = this.api.data;
 
     this.getPageData();
-    this.image = data['images'];
+    this.image = data.images;
 
 
   }
@@ -110,37 +110,38 @@ export class ChangePhotosPage implements OnInit{
       this.photos = Object.keys(this.dataPage.photos);
      if(!fromInterval) this.api.hideLoad();
     }, err => {
-      console.log("Oops!");
+      console.log('Oops!');
     });
   }
 
 
   getPage(id) {
-    this.api.data['id'] = id;
+    this.api.data.id = id;
     this.router.navigate(['/page']);
   }
 
 
-  postPageData(type, params) {//not active
-
-    if (type == 'mainImage') {
+  postPageData(type, params) {// not active
+    let data = '';
+    if (type === 'mainImage') {
       console.log('Param', params);
-      var data = JSON.stringify({setMain: params.id});
+      data = JSON.stringify({setMain: params.id});
 
     } else if ('deletePage') {
       this.api.showLoad();
-      var data = JSON.stringify({
+      data = JSON.stringify({
         delete: params.id
       });
     }
 
-    this.api.http.post(this.api.url + '/api/v2/photos.json', data, this.api.setHeaders(true, this.username, this.password)).subscribe((data:any) => {
-      this.dataPage = data;
+    this.api.http.post(this.api.url + '/api/v2/photos.json', data,
+        this.api.setHeaders(true, this.username, this.password)).subscribe((resData:any) => {
+      this.dataPage = resData;
       this.photos = Object.keys(this.dataPage.photos);
       this.api.hideLoad();
       console.log(this.photos);
     }, err => {
-      console.log("Oops!");
+      console.log('Oops!');
       this.api.hideLoad();
     });
   }
@@ -149,7 +150,7 @@ export class ChangePhotosPage implements OnInit{
 
    edit(photo) {
 
-    let mainOpt = [];
+    const mainOpt = [];
 
     console.log(photo);
     if (!photo.isMain && photo.isValid) {
@@ -181,12 +182,12 @@ export class ChangePhotosPage implements OnInit{
     });
 
 
-    var status = photo.isValid ? this.dataPage.texts.approved : this.dataPage.texts.waiting_for_approval;
+    const status = photo.isValid ? this.dataPage.texts.approved : this.dataPage.texts.waiting_for_approval;
     this.lightSheet(mainOpt,status);
    }
 
   async lightSheet(mainOpt = [], status) {
-    let actionSheet = await this.actionSheetCtrl.create({
+    const actionSheet = await this.actionSheetCtrl.create({
       header: 'ערוך תמונה',
 
       subHeader: this.dataPage.texts.status + ': ' + status,
@@ -222,14 +223,14 @@ export class ChangePhotosPage implements OnInit{
 
   openGallery() {
 
-    //alert('in open gallery');
-    let options: ImagePickerOptions = {
+    // alert('in open gallery');
+    const options: ImagePickerOptions = {
       maximumImagesCount: 1,
       width: 600,
       height: 600,
       quality: 100
     };
-    //alert(JSON.stringify(options));
+    // alert(JSON.stringify(options));
     // this.imagePicker.getPictures(options).then((results) => {alert(results)});
 
 
@@ -280,7 +281,7 @@ export class ChangePhotosPage implements OnInit{
     this.camera.getPicture(options).then((imageData) => {
       // imageData is either a base64 encoded string or a file URI
       // If it's base64 (DATA_URL):
-      //let base64Image = 'data:image/jpeg;base64,' + imageData;
+      // let base64Image = 'data:image/jpeg;base64,' + imageData;
      // alert(base64Image);
      // alert(imageData);
       this.api.showLoad();
@@ -291,41 +292,41 @@ export class ChangePhotosPage implements OnInit{
   }
 
   safeHtml(el): any {
-    let html = this.description;
-    let div: any = document.createElement('div');
+    const html = this.description;
+    const div: any = document.createElement('div');
     div.innerHTML = html;
-    [].forEach.call(div.getElementsByTagName("a"), (a) => {
-      var pageHref = a.getAttribute('click');
+    [].forEach.call(div.getElementsByTagName('a'), (a) => {
+      const pageHref = a.getAttribute('click');
       if (pageHref) {
         a.removeAttribute('click');
         a.onclick = () => this.getPage(pageHref);
       }
     });
-    if(el.innerHTML == '') {
+    if(el.innerHTML === '') {
       el.appendChild(div);
     }
   }
 
   uploadPhoto(url) {
     this.api.showLoad();
-      let options: FileUploadOptions = {
-        fileKey: "photo",
+      const options: FileUploadOptions = {
+        fileKey: 'photo',
         fileName: 'test.jpg',
         chunkedMode: false,
-        mimeType: "image/jpg",
-        headers: {Authorization: "Basic " + btoa(encodeURIComponent(this.username) + ":" + this.password)}/*@*/
+        mimeType: 'image/jpg',
+        headers: {Authorization: 'Basic ' + btoa(encodeURIComponent(this.username) + ':' + this.password)}/*@*/
       };
 
       const fileTransfer: FileTransferObject = this.transfer.create();
      // alert(options);
       fileTransfer.upload(url, this.api.url + '/api/v2/photos.json', options).then((entry: any) => {
-        //alert('sus');
+        // alert('sus');
         console.log(entry.data);
         this.getPageData();
-        //this.api.hideLoad();
+        // this.api.hideLoad();
         this.changeRef.detectChanges();
       }, (err) => {
-        //alert(err);
+        // alert(err);
         this.api.hideLoad();
       });
   }

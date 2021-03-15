@@ -7,8 +7,7 @@ import {ApiQuery} from '../api.service';
  Ionic pages and navigation.
  */
 
-import * as $ from 'jquery';
-import {Router} from "@angular/router";
+import {Router} from '@angular/router';
 
 
 @Component({
@@ -28,7 +27,7 @@ export class FaqPage {
 
 
   status(name, quest) {
-    this.hightlightStatus[name][quest] = this.hightlightStatus[name][quest] ? false : true;
+    this.hightlightStatus[name][quest] = !this.hightlightStatus[name][quest];
   }
 
   ngOnInit() {
@@ -43,9 +42,9 @@ export class FaqPage {
        *  set to hightlightStatus a view status of each question by default (false)
        *
        */
-      for(let qa of this.page) {
+      for(const qa of this.page) {
         this.hightlightStatus[qa.name] = [];
-        for(let a of qa) {
+        for(const a of qa) {
           this.hightlightStatus[qa.name][a].push('false');
         }
       }

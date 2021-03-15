@@ -13,7 +13,7 @@ export class ItemDetailsPage implements OnInit{
   constructor(public api: ApiQuery) {}
 
   ngOnInit() {
-    this.selectedItem = this.api.data['item'];
+    this.selectedItem = this.api.data.item;
   }
 
   ionViewWillEnter() {

@@ -7,6 +7,7 @@ import {Router} from '@angular/router';
 import {HttpHeaders} from '@angular/common/http';
 import {IonContent} from '@ionic/angular';
 import { Keyboard } from '@ionic-native/keyboard/ngx';
+import * as $ from 'jquery';
 
 @Component({
   selector: 'page-edit-profile',

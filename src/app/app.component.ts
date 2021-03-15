@@ -14,7 +14,6 @@ import * as $ from 'jquery';
 import {Router, NavigationEnd, NavigationExtras, NavigationStart} from '@angular/router';
 import {IonNav} from '@ionic/angular';
 import {Location} from '@angular/common';
-// import {} from "@ionic-native/push";
 import {Keyboard} from '@ionic-native/keyboard/ngx';
 import {IonContent} from '@ionic/angular';
 import {EventsService} from './events.service';

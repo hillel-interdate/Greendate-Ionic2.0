@@ -1,6 +1,7 @@
-import {Component, OnInit} from "@angular/core";
-import {ToastController} from "@ionic/angular";
-import {ApiQuery} from "../api.service";
+import {Component, OnInit} from '@angular/core';
+import {ToastController} from '@ionic/angular';
+import {ApiQuery} from '../api.service';
+import * as $ from 'jquery';
 /*
  Generated class for the PasswordRecovery page.
  See http://ionicframework.com/docs/v2/components/#navigation for more info on
@@ -28,7 +29,7 @@ export class PasswordRecoveryPage implements OnInit{
         this.api.http.get(this.api.url + '/open_api/v2/password.json', this.api.header).subscribe((data: any) => {
             this.form = data.form;
         }, err => {
-            console.log("Oops!");
+            console.log('Oops!');
         });
 
     }
@@ -36,20 +37,22 @@ export class PasswordRecoveryPage implements OnInit{
     formSubmit() {
 
         let isValid = true;
-        if(this.form.email.value.trim().length == 0) {
+        if(this.form.email.value.trim().length === 0) {
             this.email_err = 'נא להזין כתובת אימייל';
             isValid = false;
         }
 
         if(isValid) {
-            var data = JSON.stringify({
+            const data = JSON.stringify({
                 form: {
                     email: this.form.email.value,
                    // _token: this.form._token.value,
                 }
             });
 
-            this.api.http.post(this.api.url + '/open_api/v2/passwords', data , this.api.setHeaders(false)).subscribe(data => this.validate(data));
+            this.api.http.post(this.api.url + '/open_api/v2/passwords', data ,
+                // tslint:disable-next-line:no-shadowed-variable
+                this.api.setHeaders(false)).subscribe(data => this.validate(data));
             console.log(data);
         }
     }
@@ -61,8 +64,8 @@ export class PasswordRecoveryPage implements OnInit{
         this.email_err = response.errors.form.children.email.errors;
         this.form = response.form;
 
-        if( response.send == true ) {
-            this.form.email.value = "";
+        if( response.send === true ) {
+            this.form.email.value = '';
 
             this.api.toastCreate(response.success);
         }

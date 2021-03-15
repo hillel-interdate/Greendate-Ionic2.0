@@ -112,7 +112,7 @@ export class ContactUsPage {
 
     back() {
         this.navLocation.back();
-        setTimeout(function() {
+        setTimeout(() => {
             $('.scroll-content, .fixed-content').css({'margin-bottom': '57px'});
         }, 500);
     }

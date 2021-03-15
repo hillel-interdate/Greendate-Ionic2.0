@@ -1,7 +1,7 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {ModalController} from "@ionic/angular";
-import {Location} from "@angular/common";
-import {IonInfiniteScroll} from "@ionic/angular";
+import {ModalController} from '@ionic/angular';
+import {Location} from '@angular/common';
+import {IonInfiniteScroll} from '@ionic/angular';
 
 @Component({
   selector: 'app-select-modal',
@@ -37,12 +37,12 @@ export class SelectModalPage implements OnInit {
   }
 
   moreItems(event) {
-    //alert(this.page);
+    // alert(this.page);
     this.page++;
     this.addOption();
-    //setTimeout(() => {
+    // setTimeout(() => {
     event.target.complete();
-    //}, 1000);
+    // }, 1000);
   }
 
   close() {
@@ -53,10 +53,10 @@ export class SelectModalPage implements OnInit {
     this.options = this.choices;
 
     // set val to the value of the searchbar
-    let val = ev.target.value;
+    const val = ev.target.value;
 
     // if the value is an empty string don't filter the items
-    if (val && val.trim() != '') {
+    if (val && val.trim() !== '') {
       this.opt_add = false;
       this.options = this.options.filter((item) => {
         return (item.label.indexOf(val.toLowerCase()) > -1);
@@ -73,7 +73,7 @@ export class SelectModalPage implements OnInit {
     if(this.opt_add) {
       let start = 0;
       let finish = this.choices.length;
-      if (this.page == 1 && finish > this.count) {
+      if (this.page === 1 && finish > this.count) {
         finish = this.count;
       } else {
         start = this.count * (this.page - 1);
@@ -85,11 +85,11 @@ export class SelectModalPage implements OnInit {
       // if(this.page == 2){
       //   start = 10;
       // }
-      //alert(start + ':' + finish);
+      // alert(start + ':' + finish);
       let i: any = 0;
-      for (let opt of this.choices) {
-        //console.log(item);
-        //alert(i >= start && i < finish);
+      for (const opt of this.choices) {
+        // console.log(item);
+        // alert(i >= start && i < finish);
         if (i >= start && i < finish) {
           this.options.push(opt);
         }

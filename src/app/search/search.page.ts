@@ -2,10 +2,10 @@ import {Component, ViewChild} from '@angular/core';
 import { AdvancedSearchPage } from '../advanced-search/advanced-search.page';
 import { HomePage } from '../home/home.page';
 import { ApiQuery } from '../api.service';
-import {Router, NavigationExtras} from "@angular/router";
-import {SelectModalPage} from "../select-modal/select-modal.page";
-import {ModalController} from "@ionic/angular";
-import {IonContent} from "@ionic/angular";
+import {Router, NavigationExtras} from '@angular/router';
+import {SelectModalPage} from '../select-modal/select-modal.page';
+import {ModalController} from '@ionic/angular';
+import {IonContent} from '@ionic/angular';
 
 declare var $:any;
 
@@ -29,7 +29,7 @@ export class SearchPage {
   areas: Array<{ title: any }>;
   ages: Array<{ num: number }> = [];
 
-  type_search: any = "";
+  type_search: any = '';
   form: { form: any } = {
     form: {
       username: {},
@@ -52,16 +52,16 @@ export class SearchPage {
   ) {
 
     this.age = {
-      'lower': this.form.form.ageFrom.value,
-      'upper': this.form.form.ageTo.value
+      lower: this.form.form.ageFrom.value,
+      upper: this.form.form.ageTo.value
     };
 
     for (let i = 18; i <= 80; i++) {
       this.ages.push({num: i});
     }
 
-    //this.form.form.ageFrom.value = 20;
-    //this.form.form.ageTo.value = 50;
+    // this.form.form.ageFrom.value = 20;
+    // this.form.form.ageTo.value = 50;
 
     this.api.http.get( api.url + '/api/v2/search?advanced=0', api.setHeaders(true) ).subscribe(data => {
 
@@ -73,7 +73,7 @@ export class SearchPage {
       console.log(this.form);
 
     },err => {
-      console.log("Oops!");
+      console.log('Oops!');
     });
 
     window.addEventListener('keyboardWillShow', this.onKeyboardShow);
@@ -106,7 +106,7 @@ export class SearchPage {
 
   ionViewDidLoad() {
     this.type_search = 'search-1';
-    $('.input-wrapper').delegate('.search-1','click', function() {
+    $('.input-wrapper').delegate('.search-1','click', () => {
     });
   }
 
@@ -119,7 +119,7 @@ export class SearchPage {
         choices: field.choices,
         title: field.label,
         choseNow: this.usersChooses[fieldTitle],
-        search: search
+        search
       }
     });
     await modal.present();
@@ -137,36 +137,36 @@ export class SearchPage {
 
   toSearchResultsPage(search_type){
     let params;
-    if( search_type == "search-form-1" ) {
+    if( search_type === 'search-form-1' ) {
       console.log(this.ageLower);
       console.log(this.ageUpper);
 
       params = JSON.stringify({
         action: 'search',
-        filter: "lastActivity",
+        filter: 'lastActivity',
         quick_search: {
           region: this.form.form.region.value,
           ageFrom: this.form.form.ageFrom.value,
           ageTo: this.form.form.ageTo.value,
         }
       });
-      //this.api.data['params'] = params;
-      //this.router.navigate(['/home']);
+      // this.api.data['params'] = params;
+      // this.router.navigate(['/home']);
     }else{
       params = JSON.stringify({
         action: 'search',
-        filter: "lastActivity",
+        filter: 'lastActivity',
         quick_search: {
           username: this.form.form.username.value
         }
       });
-      //this.api.data['params'] = params;
-      //this.router.navigate(['/home']);
+      // this.api.data['params'] = params;
+      // this.router.navigate(['/home']);
     }
 
-    let navigationExtras: NavigationExtras = {
+    const navigationExtras: NavigationExtras = {
       queryParams: {
-        params: params
+        params
       }
     };
     this.router.navigate(['/home'], navigationExtras);
@@ -175,10 +175,10 @@ export class SearchPage {
 
 
   getAgeValues(event) {
-    if( event.value.upper != 0) {
+    if( event.value.upper !== 0) {
       this.ageUpper = event.value.upper;
     }
-    if( event.value.lower != 0) {
+    if( event.value.lower !== 0) {
       this.ageLower = event.value.lower;
     }
   }

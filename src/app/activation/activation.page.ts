@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {ApiQuery} from '../api.service';
-import {Router} from "@angular/router";
+import {Router} from '@angular/router';
 
 /*
  Generated class for the Activation page.
@@ -13,7 +13,8 @@ import {Router} from "@angular/router";
 })
 export class ActivationPage {
 
-  form: { errorMessage: any, res: any, description: any, success: any, submit: any, phone: { label: any, value: any }, code: { label: any, value: any } } =
+  form: { errorMessage: any, res: any, description: any, success: any, submit: any,
+    phone: { label: any, value: any }, code: { label: any, value: any } } =
   {
     errorMessage: '',
     res: false,
@@ -44,8 +45,8 @@ export class ActivationPage {
       if (this.form.res) {
         this.api.status = 'login';
         this.api.setStorageData({label: 'status', value: 'login'});
-        //this.navCtrl.push(RegistrationFourPage, {new_user: resp.json().register_end_button});
-        //this.navCtrl.push(HomePage);
+        // this.navCtrl.push(RegistrationFourPage, {new_user: resp.json().register_end_button});
+        // this.navCtrl.push(HomePage);
         this.router.navigate(['/home']);
       }
 
@@ -57,7 +58,7 @@ export class ActivationPage {
 
   formSubmit() {
     let params = '';
-    if (this.form.submit == 'Activate') {
+    if (this.form.submit === 'Activate') {
       params = JSON.stringify({
         code: this.form.code.value
       });

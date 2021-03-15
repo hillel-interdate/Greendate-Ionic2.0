@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
-  //{path: '', redirectTo: '/home',  pathMatch: 'full'},
+  // {path: '', redirectTo: '/home',  pathMatch: 'full'},
   { path: 'login', loadChildren: './login/login.module#LoginPageModule' },
   { path: 'password-recovery', loadChildren: './password-recovery/password-recovery.module#PasswordRecoveryPageModule' },
   { path: 'home', loadChildren: './home/home.module#HomePageModule' },

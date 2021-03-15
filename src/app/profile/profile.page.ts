@@ -1,11 +1,11 @@
 import {Component, ViewChild} from '@angular/core';
 import {ApiQuery} from '../api.service';
-import {IonContent} from "@ionic/angular";
-import {Router, ActivatedRoute} from "@angular/router";
-import {Location} from "@angular/common";
-import { ChangeDetectorRef } from '@angular/core';
-import { Keyboard } from '@ionic-native/keyboard/ngx';
-import {Platform} from "@ionic/angular";
+import {IonContent} from '@ionic/angular';
+import {Router, ActivatedRoute} from '@angular/router';
+import {Location} from '@angular/common';
+import {ChangeDetectorRef} from '@angular/core';
+import {Keyboard} from '@ionic-native/keyboard/ngx';
+import {Platform} from '@ionic/angular';
 
 /*
  Generated class for the Profile page.
@@ -17,52 +17,53 @@ declare var $: any;
 
 
 @Component({
-  selector: 'page-profile',
-  templateUrl: 'profile.page.html',
-  styleUrls: ['profile.page.scss']
+    selector: 'page-profile',
+    templateUrl: 'profile.page.html',
+    styleUrls: ['profile.page.scss']
 })
 export class ProfilePage {
-  @ViewChild(IonContent) content: IonContent;
+    @ViewChild(IonContent) content: IonContent;
 
 
-  isAbuseOpen: any = false;
-  //isAbout: boolean = false;
+    isAbuseOpen: any = false;
+    // isAbout: boolean = false;
 
-  // user: { id: any, type: any, username: any, music: any, isAddBlackListed: any, about: { label: any }, photos: any, photo: any, url: any, } = {
-  //   id: '',
-  //   isAddBlackListed: false,
-  //   music: '',
-  //   username: '',
-  //   about: {label: ''},
-  //   photos: '',
-  //   type: '',
-  //   photo: '',
-  //   url: ''
-  // };
-  user:any = {
-      isAddBlackListed: false
-  };
-  texts: { lock: any, unlock: any } = {lock: '', unlock: ''};
+    // user: { id: any, type: any, username: any, music: any, isAddBlackListed: any,
+    // about: { label: any }, photos: any, photo: any, url: any, } = {
+    //   id: '',
+    //   isAddBlackListed: false,
+    //   music: '',
+    //   username: '',
+    //   about: {label: ''},
+    //   photos: '',
+    //   type: '',
+    //   photo: '',
+    //   url: ''
+    // };
+    user: any = {
+        isAddBlackListed: false
+    };
+    texts: { lock: any, unlock: any } = {lock: '', unlock: ''};
 
-  formReportAbuse: { title: any, buttons: { cancel: any, submit: any }, text: { label: any, name: any, value: any } } =
-  {title: '', buttons: {cancel: '', submit: ''}, text: {label: '', name: '', value: ''}};
+    formReportAbuse: { title: any, buttons: { cancel: any, submit: any }, text: { label: any, name: any, value: any } } =
+        {title: '', buttons: {cancel: '', submit: ''}, text: {label: '', name: '', value: ''}};
 
-  myId: any = false;
+    myId: any = false;
 
 
-  constructor(public api: ApiQuery,
-              public navLocation: Location,
-              public router: Router,
-              public route: ActivatedRoute,
-              public keyboard: Keyboard,
-              private changeRef: ChangeDetectorRef,
-              public platform: Platform) {
-  }
+    constructor(public api: ApiQuery,
+                public navLocation: Location,
+                public router: Router,
+                public route: ActivatedRoute,
+                public keyboard: Keyboard,
+                private changeRef: ChangeDetectorRef,
+                public platform: Platform) {
+    }
 
 
     ngOnInit() {
         this.route.queryParams.subscribe((params: any) => {
-            if(params.data) {
+            if (params.data) {
                 this.user = JSON.parse(params.data).user;
                 console.log(this.user);
                 this.user.photos = [
@@ -89,10 +90,9 @@ export class ProfilePage {
                     console.log(userData);
                     this.getUesr();
                     this.api.hideLoad();
-                })
+                });
             }
         });
-
 
 
     }
@@ -100,10 +100,10 @@ export class ProfilePage {
 
     onClickInput() {
         $('.footerMenu').hide();
-        $('.container').css({ 'margin-bottom': '32px'});
+        $('.container').css({'margin-bottom': '32px'});
         $('.abuse-form').css({'padding-bottom': 0});
         $('.content').css({'padding-bottom': 0});
-        setTimeout(()=>{
+        setTimeout(() => {
             this.content.scrollToBottom(100);
         }, 300);
     }
@@ -111,7 +111,7 @@ export class ProfilePage {
 
     onBlurInput() {
         $('.footerMenu').show();
-        $('.container').css({ 'margin-bottom': '66px'});
+        $('.container').css({'margin-bottom': '66px'});
     }
 
 
@@ -152,142 +152,145 @@ export class ProfilePage {
 
     ionViewWillEnter() {
         this.api.pageName = 'ProfilePage';
-       // window.addEventListener('keyboardWillShow', this.onOpenKeyboard);
+        // window.addEventListener('keyboardWillShow', this.onOpenKeyboard);
         window.addEventListener('keyboardWillHide', this.onHideKeyboard);
     }
 
 
-    getKeys(obj){
+    getKeys(obj) {
 
         return Object.keys(obj);
 
     }
 
-    getUesr(){
-        this.api.http.get(this.api.url + '/api/v2/users/' + this.user.id, this.api.setHeaders(true)).subscribe((data:any)=> {
-           this.user = data;
-           this.formReportAbuse = data.formReportAbuse;
-           this.changeRef.detectChanges();
+    getUesr() {
+        this.api.http.get(this.api.url + '/api/v2/users/' + this.user.id, this.api.setHeaders(true)).subscribe((data: any) => {
+            this.user = data;
+            this.formReportAbuse = data.formReportAbuse;
+            this.changeRef.detectChanges();
         });
 
     }
 
 
-  back() {
-      this.api.back = true;
-      this.navLocation.back();
-  }
-
-  addFavorites(user) {
-      if (user.isAddFavorite == false) {
-          user.isAddFavorite = true;
-
-          var params = JSON.stringify({
-              list: 'Favorite'
-          });
-      } else {
-          user.isAddFavorite = false;
-          var params  = JSON.stringify({
-              list: 'Favorite',
-              action: 'delete'
-          });
-      }
-
-   this.api.http.post(this.api.url + '/api/v2/lists/' + user.id, params, this.api.setHeaders(true)).subscribe((data:any) => {
-      console.log(data);
-     this.api.toastCreate(data.success, 2500);
-    });
-  }
-
-  blockSubmit() {
-    if (this.user.isAddBlackListed == true) {
-      this.user.isAddBlackListed = false;
-      var action = 'delete';
-    } else {
-      this.user.isAddBlackListed = true;
-      var action = 'create';
+    back() {
+        this.api.back = true;
+        this.navLocation.back();
     }
 
+    addFavorites(user) {
+        let params: string;
+        if (user.isAddFavorite === false) {
+            user.isAddFavorite = true;
 
-    let params = JSON.stringify({
-      list: 'BlackList',
-      action: action
-    });
+            params = JSON.stringify({
+                list: 'Favorite'
+            });
+        } else {
+            user.isAddFavorite = false;
+            params = JSON.stringify({
+                list: 'Favorite',
+                action: 'delete'
+            });
+        }
 
-   this.api.http.post(this.api.url + '/api/v2/lists/' + this.user.id, params, this.api.setHeaders(true)).subscribe((data:any) => {
-     this.api.toastCreate(data.success);
-    });
-  }
+        this.api.http.post(this.api.url + '/api/v2/lists/' + user.id, params, this.api.setHeaders(true)).subscribe((data: any) => {
+            console.log(data);
+            this.api.toastCreate(data.success, 2500);
+        });
+    }
 
-  addLike(user) {
-    user.isAddLike = true;
-    this.api.toastCreate(' עשית לייק ל' + user.username);
+    blockSubmit() {
+        let action: string;
+        if (this.user.isAddBlackListed === true) {
+            this.user.isAddBlackListed = false;
+            action = 'delete';
+        } else {
+            this.user.isAddBlackListed = true;
+            action = 'create';
+        }
 
-    let params = JSON.stringify({
-      toUser: user.id,
-    });
 
-   this.api.http.post(this.api.url + '/api/v2/likes/' + user.id, params, this.api.setHeaders(true)).subscribe(data => {
-      console.log(data);
-    }, err => {
-      console.log("Oops!");
-    });
+        const params = JSON.stringify({
+            list: 'BlackList',
+            action
+        });
 
-  }
+        this.api.http.post(this.api.url + '/api/v2/lists/' + this.user.id, params, this.api.setHeaders(true)).subscribe((data: any) => {
+            this.api.toastCreate(data.success);
+        });
+    }
 
-  fullPagePhotos() {
-    this.api.data['user'] = this.user;
-    this.router.navigate(['full-screen-profile']);
-  }
+    addLike(user) {
+        user.isAddLike = true;
+        this.api.toastCreate(' עשית לייק ל' + user.username);
 
-  toDialog(user) {
+        const params = JSON.stringify({
+            toUser: user.id,
+        });
 
-    this.api.data['user'] = user;
-    this.router.navigate(['/dialog']);
-  }
+        this.api.http.post(this.api.url + '/api/v2/likes/' + user.id, params, this.api.setHeaders(true)).subscribe(data => {
+            console.log(data);
+        }, err => {
+            console.log('Oops!');
+        });
 
-  reportAbuseShow() {
-    this.isAbuseOpen = true;
-      setTimeout(()=>this.content.scrollToBottom(300), 300);
-      $('.pmtitle.bottom').css(
-          {
-              'margin-bottom': '0px',
-          }
-      );
-  }
+    }
 
-  reportAbuseClose() {
-    this.isAbuseOpen = false;
-    this.formReportAbuse.text.value = "";
-    this.keyboard.hide();
-    $('.footerMenu').show();
-    $('.pmtitle.bottom').css({'margin-bottom': '66px'});
-  }
+    fullPagePhotos() {
+        this.api.data.user = this.user;
+        this.router.navigate(['full-screen-profile']);
+    }
+
+    toDialog(user) {
+
+        this.api.data.user = user;
+        this.router.navigate(['/dialog']);
+    }
+
+    reportAbuseShow() {
+        this.isAbuseOpen = true;
+        setTimeout(() => this.content.scrollToBottom(300), 300);
+        $('.pmtitle.bottom').css(
+            {
+                'margin-bottom': '0px',
+            }
+        );
+    }
+
+    reportAbuseClose() {
+        this.isAbuseOpen = false;
+        this.formReportAbuse.text.value = '';
+        this.keyboard.hide();
+        $('.footerMenu').show();
+        $('.pmtitle.bottom').css({'margin-bottom': '66px'});
+    }
 
 
     closeKeyboard() {
         this.keyboard.hide();
     }
 
-  abuseSubmit() {
+    abuseSubmit() {
 
-    let params = JSON.stringify({
-      text: this.formReportAbuse.text.value,
-    });
+        const params = JSON.stringify({
+            text: this.formReportAbuse.text.value,
+        });
 
-   this.api.http.post(this.api.url + '/api/v2/reports/' + this.user.id + '/abuses', params, this.api.setHeaders(true)).subscribe((data:any) => {
-     this.api.toastCreate(data.success);
-    }, err => {
-      console.log("Oops!");
-    });
-    this.reportAbuseClose();
-  }
+        this.api.http.post(this.api.url + '/api/v2/reports/' + this.user.id + '/abuses', params,
+            this.api.setHeaders(true)).subscribe((data: any) => {
+            this.api.toastCreate(data.success);
+        }, err => {
+            console.log('Oops!');
+        });
+        this.reportAbuseClose();
+    }
 
 
-  ionViewWillLeave() {
-      this.keyboard.hide();
-      // window.removeEventListener('keyboardWillShow', this.onOpenKeyboard);
-      // window.removeEventListener('keyboardWillHide', this.onHideKeyboard);
-  }
+    ionViewWillLeave() {
+        this.keyboard.hide();
+        // window.removeEventListener('keyboardWillShow', this.onOpenKeyboard);
+        // window.removeEventListener('keyboardWillHide', this.onHideKeyboard);
+    }
 
 }

@@ -1,7 +1,8 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {ApiQuery} from '../api.service';
-import {Router} from "@angular/router";
-import {IonContent} from "@ionic/angular";
+import {Router} from '@angular/router';
+import {IonContent} from '@ionic/angular';
+import * as $ from 'jquery';
 
 /*
  Generated class for the FreezeAccount page.
@@ -42,16 +43,16 @@ export class FreezeAccountPage implements OnInit{
    */
   submit() {
 
-    if (this.form.text.value == '') {
+    if (this.form.text.value === '') {
       this.allfields = 'יש להכניס סיבה להקפאה';
     } else {
 
-      var params = JSON.stringify({
-        'freeze_account_reason': this.form.text.value
+      const params = JSON.stringify({
+        freeze_account_reason: this.form.text.value
       });
 
       this.api.http.post(this.api.url + '/api/v1/freezes', params, this.api.header).subscribe((data:any) => this.validate(data));
-      this.api.data['_id'] = 'logout';
+      this.api.data._id = 'logout';
       this.router.navigate(['/login'])
 
     }

@@ -8,8 +8,9 @@ import {IonContent} from '@ionic/angular';
 import {Platform} from '@ionic/angular';
 import {SplashScreen} from '@ionic-native/splash-screen/ngx';
 import {EventsService} from '../events.service';
-import {filter} from 'rxjs/operators';
+import { filter } from 'rxjs/operators';
 import {Subscription} from 'rxjs';
+import * as $ from 'jquery';
 
 
 @Component({

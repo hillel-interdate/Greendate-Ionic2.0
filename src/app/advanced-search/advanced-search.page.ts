@@ -1,9 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import { ApiQuery } from '../api.service';
-import { HomePage } from '../home/home.page';
-import {Router, NavigationExtras} from "@angular/router";
-import {SelectModalPage} from "../select-modal/select-modal.page";
-import {ModalController} from "@ionic/angular";
+import {Router, NavigationExtras} from '@angular/router';
+import {SelectModalPage} from '../select-modal/select-modal.page';
+import {ModalController} from '@ionic/angular';
 
 /*
  Generated class for the AdvancedSearch page.
@@ -30,7 +29,7 @@ export class AdvancedSearchPage implements OnInit{
   default_range: any = { lower: this.ageLower, upper: this.ageUpper };
 
   constructor(
-      //public navCtrl: NavController,
+      // public navCtrl: NavController,
       public modalCtrl: ModalController,
       public router: Router,
       public api: ApiQuery
@@ -50,7 +49,7 @@ export class AdvancedSearchPage implements OnInit{
       } else {
         this.fromCache = false;
         this.api.http.get( this.api.url + '/api/v2/search?advanced=1', this.api.setHeaders(true) ).subscribe(data => {
-          //console.log(data);
+          // console.log(data);
           this.form = data;
           this.form.ageFrom.label = 'גיל מ';
           this.form.ageTo.label = 'גיל עד';
@@ -64,7 +63,7 @@ export class AdvancedSearchPage implements OnInit{
             this.api.hideLoad();
           }
         },err => {
-          console.log("Oops!");
+          console.log('Oops!');
         });
 
       }
@@ -91,14 +90,14 @@ export class AdvancedSearchPage implements OnInit{
 
       this.form[fieldTitle].value = data.data.value;
       this.usersChooses[fieldTitle] = data.data.label;
-      //console.log(this.usersChooses);
+      // console.log(this.usersChooses);
     });
 
   }
 
   resetForm(){
     this.api.storage.remove('searchParams').then(data => {
-      //this.router.navigate(['advanced-search']);
+      // this.router.navigate(['advanced-search']);
       this.usersChooses = [];
       this.api.showLoad();
       this.ngOnInit();
@@ -118,7 +117,7 @@ export class AdvancedSearchPage implements OnInit{
       chooses: this.usersChooses
     });
 
-    let params = JSON.stringify({
+    const params = JSON.stringify({
       action: 'search',
       advanced_search: {
 
@@ -144,9 +143,9 @@ export class AdvancedSearchPage implements OnInit{
 
       }
     });
-    let navigationExtras: NavigationExtras = {
+    const navigationExtras: NavigationExtras = {
       queryParams: {
-        params: params
+        params
       }
     };
     this.router.navigate(['/home'], navigationExtras);
@@ -159,7 +158,8 @@ export class AdvancedSearchPage implements OnInit{
 
   // selectedRegion()
   // {
-  //   this.api.http.get(this.api.url+'/api/v2/search?advanced=1&advanced_search[region]='+this.form.form.region.value,this.api.setHeaders(true)).subscribe((data => {
+  //   this.api.http.get(this.api.url+'/api/v2/search?advanced=1&advanced_search[region]='+this.form.form.region.value,
+  //   this.api.setHeaders(true)).subscribe((data => {
   //     this.form.form.area = data.area;
   //     console.log(data);
   //   },err => {
@@ -168,10 +168,10 @@ export class AdvancedSearchPage implements OnInit{
   // }
 
   getAgeValues(event) {
-    if( event.value.upper != 0) {
+    if( event.value.upper !== 0) {
       this.ageUpper = event.value.upper;
     }
-    if( event.value.lower != 0) {
+    if( event.value.lower !== 0) {
       this.ageLower = event.value.lower;
     }
   //  console.log(event);

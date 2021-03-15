@@ -9,7 +9,7 @@ import {Router, NavigationExtras, ActivatedRoute} from '@angular/router';
 import {HttpHeaders} from '@angular/common/http';
 import {IonContent} from '@ionic/angular';
 import {EventsService} from '../events.service';
-
+import * as $ from 'jquery';
 
 /*
  Generated class for the One page.

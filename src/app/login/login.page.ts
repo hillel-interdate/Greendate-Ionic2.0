@@ -1,7 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {ToastController} from '@ionic/angular';
 import {ApiQuery} from '../api.service';
-import 'rxjs/add/operator/catch';
 import {HttpHeaders} from '@angular/common/http';
 import {Router, ActivatedRoute, NavigationExtras} from '@angular/router';
 import { FingerprintAIO } from '@ionic-native/fingerprint-aio/ngx';
@@ -98,6 +97,7 @@ export class LoginPage implements OnInit {
           console.log('Logged into Facebook!', fbres);
           this.getFBData(fbres);
         }).catch(e => console.log('Error logging into Facebook', e));
+
       }
     }).catch(e => console.log('Error logging into Facebook', e));
   }
@@ -189,12 +189,9 @@ export class LoginPage implements OnInit {
 
   fingerAuthentication() {
     this.faio.show({
-      clientId: 'Fingerprint-Demo',
-      // clientSecret: 'password', //Only necessary for Android
-      clientSecret: 'password', // Only necessary for Android
-      disableBackup: true,  // Only for Android(optional)
-      localizedFallbackTitle: 'Use Pin', // Only for iOS
-      localizedReason: 'כניסה לגרינדייט באמצעות טביעת אצבע' // Only for iOS
+      disableBackup: true,
+      fallbackButtonTitle: 'Use Pin',
+      title: 'כניסה לגרינדייט באמצעות טביעת אצבע' // Only for android
     }).then((result: any) => {
           if (result) {
             this.api.storage.get('fingerAuth').then((val) => {

@@ -26,7 +26,7 @@ export class ChangePasswordPage {
     this.api.http.post(api.url + '/api/v2/passwords', {}, api.header).subscribe((data:any) => {
       this.form = data.form;
     }, err => {
-      console.log("Oops!");
+      console.log('Oops!');
     });
   }
 
@@ -49,7 +49,7 @@ export class ChangePasswordPage {
     if (isValid) {
 
 
-      var params ={
+      const params ={
         changePassword: {
          // _token: this.form._token.value,
           oldPassword: this.form.oldPassword.value,
@@ -83,7 +83,7 @@ export class ChangePasswordPage {
     console.log(this);
 
 
-    if (response.changed == true) {
+    if (response.changed === true) {
 
       this.api.storage.get('user_data').then(data => {
         data.password = this.form.password.first.value;
@@ -91,9 +91,9 @@ export class ChangePasswordPage {
       });
       this.api.setHeaders(true, '', this.form.password.first.value);
 
-      this.form.password.first.value = "";
-      this.form.password.second.value = "";
-      this.form.oldPassword.value = "";
+      this.form.password.first.value = '';
+      this.form.password.second.value = '';
+      this.form.oldPassword.value = '';
 
   this.api.toastCreate('סיסמה עודכנה בהצלחה');
     } else {

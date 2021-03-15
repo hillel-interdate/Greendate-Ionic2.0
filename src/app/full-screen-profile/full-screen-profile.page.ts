@@ -2,8 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import { ToastController } from '@ionic/angular';
 
 import { ApiQuery } from '../api.service';
-import {Router} from "@angular/router";
-import {Location} from "@angular/common";
+import {Router} from '@angular/router';
+import {Location} from '@angular/common';
 /*
  Generated class for the FullScreenProfile page.
  See http://ionicframework.com/docs/v2/components/#navigation for more info on
@@ -28,8 +28,8 @@ export class FullScreenProfilePage implements OnInit{
 
 
   ngOnInit() {
-    //this.user = navParams.get('user');
-    this.user = this.api.data['user'];
+    // this.user = navParams.get('user');
+    this.user = this.api.data.user;
     this.api.pageName = 'FullScreenProfilePage';
 
     this.api.storage.get('user_id').then((val) => {
@@ -49,14 +49,14 @@ export class FullScreenProfilePage implements OnInit{
     // this.navCtrl.push(DialogPage, {
     //   user: user
     // });
-    this.api.data['user'] = user;
+    this.api.data.user = user;
     this.router.navigate(['/dialog']);
   }
 
   addFavorites(user) {
     user.isAddFavorite = true;
 
-    let params = JSON.stringify({
+    const params = JSON.stringify({
       list: 'Favorite'
     });
 
@@ -67,7 +67,7 @@ export class FullScreenProfilePage implements OnInit{
       }).then(alert => alert.present());
 
     }, err => {
-      console.log("Oops!");
+      console.log('Oops!');
     });
   }
 
@@ -79,14 +79,14 @@ export class FullScreenProfilePage implements OnInit{
     }).then(alert=>alert.present());
 
 
-    let params = JSON.stringify({
+    const params = JSON.stringify({
       toUser: user.id,
     });
 
     this.api.http.post(this.api.url + '/api/v1/likes/' + user.id, params, this.api.setHeaders(true)).subscribe(data => {
       console.log(data);
     }, err => {
-      console.log("Oops!");
+      console.log('Oops!');
     });
   }
 

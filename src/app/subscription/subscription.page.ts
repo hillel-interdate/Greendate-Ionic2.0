@@ -11,7 +11,7 @@ import {InAppPurchase} from '@ionic-native/in-app-purchase/ngx';
 export class SubscriptionPage implements OnInit {
 
     page: any;
-    private platform: string;
+    public platform: string;
 
     constructor(public api: ApiQuery, private platformService: Platform, private iap: InAppPurchase) {
         this.platform = this.platformService.is('android') ? 'android' : 'ios';
