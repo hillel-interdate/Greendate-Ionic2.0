@@ -26,6 +26,7 @@ import {filter} from 'rxjs/operators';
     // providers: [Geolocation, MenuController, Push, Market, Nav, GestureController, TransitionController,
     // DomController, AlertController, Events],
     providers: [Keyboard],
+    styleUrls: ['app.scss']
 
 
 })
@@ -78,7 +79,7 @@ export class AppComponent implements AfterViewInit {
                 private events: EventsService) {
 
 
-        this.api.http.get(api.url + '/open_api/v2/menu', {}).subscribe((data: any) => {
+        this.api.http.get(api.url + api.routeGroup +'/menu', {}).subscribe((data: any) => {
             this.initMenuItems(data.menu);
         });
         this.keyboard.hide();
@@ -261,7 +262,7 @@ export class AppComponent implements AfterViewInit {
             {_id: 'inbox', icon: '', title: menu.inbox, url: '/inbox', count: ''},
             {_id: 'the_area', icon: '', title: menu.the_arena, url: '/arena', count: ''},
             {_id: 'notifications', icon: '', title: menu.notifications, url: '/notifications', count: ''},
-            {_id: 'stats', icon: 'stats', title: menu.contacts, url: '/profile', count: ''},
+            {_id: 'stats', icon: 'list-outline', title: menu.contacts, url: '/profile', count: ''},
             {_id: '', icon: 'search', title: menu.search, url: '/search', count: ''},
             {_id: '', icon: 'information-circle', title: 'שאלות נפוצות', url: '/faq', count: ''},
             {_id: '', icon: 'mail', title: menu.contact_us, url: '/contact-us', count: ''},
@@ -366,8 +367,9 @@ export class AppComponent implements AfterViewInit {
             },
             {
                 _id: 'inbox',
-                src_img: '../assets/img/icons/inbox.png',
-                icon: '',
+                // src_img: '../assets/img/icons/inbox.png',
+                src_img: '',
+                icon: 'chatbubbles-outline',
                 list: '',
                 title: menu.inbox,
                 url: '/inbox',

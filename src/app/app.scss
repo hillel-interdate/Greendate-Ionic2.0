@@ -200,7 +200,7 @@ header {
   list-style-type: none;
  }
 
-.footer-menu ion-icon[aria-label=pin],.footer-menu ion-icon[aria-label=search] {
+.footer-menu ion-icon[aria-label=pin],.footer-menu ion-icon[aria-label=search],  .footer-menu ion-icon[aria-label="chatbubbles outline"]{
   height: 29px;
   width: 31px;
   text-align: center;
@@ -212,7 +212,6 @@ header {
 
 
 ion-content {
-  --background: #DBDBD2;
   display: flex;
 }
 

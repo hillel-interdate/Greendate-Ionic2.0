@@ -19,6 +19,10 @@
   padding-top: env (safe-area-insert-top);
 }
 
+ion-content{
+  --background: #DBDBD2;
+}
+
 .item-md.item-input.ng-valid.input-has-value:not(.input-has-focus) .item-inner {
   border-bottom-color: transparent;
   box-shadow: none;

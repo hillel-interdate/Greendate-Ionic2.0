@@ -131,8 +131,10 @@
       <ul class="menu-one">
         <li (click)="swipeFooterMenu()" class="more-btn menu-left">
           <!--<ion-icon large name="md-more"></ion-icon>-->
-          <ion-icon class="right-arrow" name="md-arrow-dropright"></ion-icon>
-          <ion-icon class="left-arrow" name="md-arrow-dropleft"></ion-icon>
+<!--          <ion-icon class="right-arrow" name="md-arrow-dropright"></ion-icon>-->
+<!--          <ion-icon class="left-arrow" name="md-arrow-dropleft"></ion-icon>-->
+          <ion-icon class ="left-arrow" name="caret-back-sharp"></ion-icon>
+          <ion-icon class="right-arrow" name="caret-forward-sharp"></ion-icon>
         </li>
         <li class="{{menu_item_footer1._id}}" *ngFor="let menu_item_footer1 of menu_items_footer1"
             (click)="openPage(menu_item_footer1)"><span
