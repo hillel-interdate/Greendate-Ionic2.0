@@ -14,14 +14,16 @@ export class SubscriptionPage implements OnInit {
     public platform: string;
 
     constructor(public api: ApiQuery, private platformService: Platform, private iap: InAppPurchase) {
+        // if (this.platformService.is('cordova')) {
         this.platform = this.platformService.is('android') ? 'android' : 'ios';
-        if (this.platform !== 'ios') {
-            this.api.http.get(api.url + '/app_dev.php/api/v2/user/subscribe', this.api.setHeaders(true)).subscribe((data: any) => {
-                this.page = data;
-            });
-        } else {
-            this.iap.getProducts(['1', '2', '3', '4']).then(prods => console.log(prods));
-        }
+        // if (this.platform !== 'ios') {
+        this.api.http.get(api.url + '/app_dev.php/api/v2/user/subscribe', this.api.setHeaders(true)).subscribe((data: any) => {
+            this.page = data;
+        });
+        // } else {
+        //     this.iap.getProducts(['1', '2', '3', '4']).then(prods => console.log(prods));
+        // }
+        // }
     }
 
 
@@ -34,7 +36,7 @@ export class SubscriptionPage implements OnInit {
     }
 
     subscribeIos() {
-        console.log('subscribing to ios')
+        console.log('subscribing to ios');
     }
 
     ionViewWillEnter() {

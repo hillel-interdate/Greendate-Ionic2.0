@@ -42,8 +42,8 @@
         <div *ngIf="(menu_item._id == 'subscription' && !api.isPay) || menu_item._id != 'subscription'" class="menu-item"  (click)="openPage(menu_item)">
           <ion-icon slot="start" id="{{menu_item._id}}" name="{{menu_item.icon}}"></ion-icon>
           <span class="menu-text">{{menu_item.title}}</span>
-          <ion-icon slot="start" class="contact-arrow" *ngIf="menu_item._id == 'stats'" ios="ios-arrow-back"
-                    md="ios-arrow-back"></ion-icon>
+          <ion-icon slot="start" class="contact-arrow" *ngIf="menu_item._id == 'stats'" ios="chevron-back"
+                    md="chevron-back"></ion-icon>
           <ion-badge slot="end" *ngIf="is_login && menu_item.count != 0">{{ menu_item.count }}</ion-badge>
         </div>
       </div>

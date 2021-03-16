@@ -20,6 +20,7 @@ import {FileTransfer} from '@ionic-native/file-transfer/ngx';
 import {HttpClientModule as HttpModule} from '@angular/common/http';
 import {ImagePicker} from '@ionic-native/image-picker/ngx';
 import {EventsService} from './events.service';
+import {InAppPurchase} from '@ionic-native/in-app-purchase/ngx';
 
 
 @NgModule({
@@ -48,6 +49,7 @@ import {EventsService} from './events.service';
         FileTransfer,
         {provide: RouteReuseStrategy, useClass: IonicRouteStrategy},
         ImagePicker,
+        InAppPurchase,
     ],
     bootstrap: [AppComponent]
 })

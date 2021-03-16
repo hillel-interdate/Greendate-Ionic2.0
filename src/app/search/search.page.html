@@ -1,13 +1,10 @@
 
 <ion-header>
   <ion-toolbar class="toolbar-color">
-    <button menuToggle>
-      <ion-icon name="menu"></ion-icon>
-    </button>
   </ion-toolbar>
 </ion-header>
 
-<ion-content padding id="content">
+<ion-content class="ion-padding" id="content">
   <div class="search-container">
     <div class="border-top" ngDefaultControl [(ngModel)]="form?.form?.ageFrom.value" (click)="openSelect2(form?.form?.ageFrom, 'ageFrom', true)"> {{form?.form?.ageFrom.label}} {{ form?.form?.ageFrom.value }}</div>
     <div class="border-top"  (click)="openSelect2(form?.form?.ageTo, 'ageTo', true)">{{form?.form?.ageTo.label}} {{ form?.form?.ageTo.value }}</div>

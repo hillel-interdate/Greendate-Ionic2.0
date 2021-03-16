@@ -1,49 +1,45 @@
+scroll-content {
+  background: #e9e8e5;
+}
 
 
-  scroll-content {
-    background: #e9e8e5;
-  }
+.input textarea {
+  width: 100%;
+  margin: 3% 3% 3% 0%;
+}
 
+ion-item {
+  margin: 18px 13px;
+  border-radius: 6px;
+}
 
-  .input textarea{
-    width: 100%;
-    margin: 3% 3% 3% 0%;
-  }
+.item-inner {
+  border: none;
+}
 
-  ion-item {
-    margin: 18px 13px;
-    border-radius: 6px;
-  }
-  ion-content {
-    margin-top: 30px;
-  }
+ion-item ion-input {
+  border: none;
+}
 
-  .item-inner {
-    border:none;
-  }
+ion-item ion-input .item-inner {
+  border: none;
+}
 
-  ion-item ion-input {
-    border:none;
-  }
-  ion-item ion-input .item-inner {
-    border:none;
-  }
+ion-list {
+  background-color: #DBDBD2;
+}
 
-  ion-list {
-    background-color: #DBDBD2;
-  }
+.border-red {
+  border: 2px solid red;
+}
 
-  .border-red {
-    border: 2px solid red;
-  }
+.err {
+  position: relative;
+  bottom: 11px;
+  right: 27px;
+}
 
-  .err {
-    position: relative;
-    bottom: 11px;
-    right: 27px;
-  }
-
-  ion-button {
-    width: 90%;
-    margin: 0 4.5%;
-  }
+ion-button {
+  width: 90%;
+  margin: 0 4.5%;
+}

@@ -25,7 +25,7 @@
   <div *ngIf="user?.isAddFavorite" class="disabled favorite-profile-btn" (click)="addFavorites(user)" ><img src="../../assets/img/icons/remove-favorite.svg"></div>
 </div>
 <div (click)="back()" class="back-btn">
-  <ion-icon name="ios-arrow-forward"></ion-icon>
+  <ion-icon name="chevron-forward"></ion-icon>
 </div>
 
 
@@ -61,7 +61,7 @@
       </div>
 
       <div *ngIf="user?.iam" class="pmdetail cf">
-        <ul padding [ngClass]="{'bg-loader': !user?.iam}" class="pmbotul ">
+        <ul [ngClass]="{'bg-loader': !user?.iam}" class="pmbotul ion-padding">
           <div class="profile-sub-title">אני בקצרה</div>
           <li *ngIf="user.relationshipStatus?.value"><span
                   class="one">{{user?.relationshipStatus?.label }}</span><span

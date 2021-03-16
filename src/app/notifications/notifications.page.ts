@@ -2,11 +2,6 @@ import {Component, OnInit} from '@angular/core';
 import { ApiQuery } from '../api.service';
 import {Router} from '@angular/router';
 
-/*
- Generated class for the Notifications page.
- See http://ionicframework.com/docs/v2/components/#navigation for more info on
- Ionic pages and navigation.
- */
 @Component({
   selector: 'page-notifications',
   templateUrl: 'notifications.page.html',

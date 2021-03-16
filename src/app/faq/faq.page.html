@@ -11,11 +11,11 @@
 </ion-header>
 
 
-<ion-content padding>
+<ion-content class="ion-padding">
   <div class="faq">
     <div *ngFor="let q of page;">
       <h2 class="headline">{{q?.name}}</h2>
-      <div *ngFor="let qa of q?.faq, let i = index" padding-top padding-bottom>
+      <div *ngFor="let qa of q?.faq, let i = index" class = "ion-padding-top ion-padding-bottom">
         <div class="question" (click)="status(q.name, qa.q)"
              [class.highlight]="hightlightStatus[i]" [attr.data-selected]="false"><b>{{qa.q }}</b>
         </div>

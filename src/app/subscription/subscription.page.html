@@ -11,7 +11,7 @@
             <div *ngIf="tb.text && tb.text.length > 0" [innerHTML]="tb.text"></div>
         </div>
         <div class="subscriptions">
-            <ng-container *ngIf="platform === 'android' else iosPayment">
+<!--            <ng-container *ngIf="platform === 'android' else iosPayment">-->
                 <div class="subscription" *ngFor="let payment of page.payments" (click)="subscribe(payment)">
                     <div class="wrap-pay">
                         <div class="chackbox"><span></span></div>
@@ -24,7 +24,7 @@
                         </div>
                     </div>
                 </div>
-            </ng-container>
+<!--            </ng-container>-->
             <ng-template #iosPayment>
                 <div class="subscription" *ngFor="let payment of page.payments" (click)="subscribeIos(payment)">
                     <div class="wrap-pay">

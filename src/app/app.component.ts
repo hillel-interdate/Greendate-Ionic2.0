@@ -262,7 +262,7 @@ export class AppComponent implements AfterViewInit {
             {_id: 'inbox', icon: '', title: menu.inbox, url: '/inbox', count: ''},
             {_id: 'the_area', icon: '', title: menu.the_arena, url: '/arena', count: ''},
             {_id: 'notifications', icon: '', title: menu.notifications, url: '/notifications', count: ''},
-            {_id: 'stats', icon: 'list-outline', title: menu.contacts, url: '/profile', count: ''},
+            {_id: 'stats', icon: 'list-circle-outline', title: menu.contacts, url: '/profile', count: ''},
             {_id: '', icon: 'search', title: menu.search, url: '/search', count: ''},
             {_id: '', icon: 'information-circle', title: 'שאלות נפוצות', url: '/faq', count: ''},
             {_id: '', icon: 'mail', title: menu.contact_us, url: '/contact-us', count: ''},
@@ -273,7 +273,7 @@ export class AppComponent implements AfterViewInit {
             {_id: 'inbox', icon: '', title: menu.inbox, url: '/inbox', count: ''},
             {_id: 'the_area', icon: '', title: menu.the_arena, url: '/arena', count: ''},
             {_id: 'notifications', icon: '', title: menu.notifications, url: '/notifications', count: ''},
-            {_id: 'stats', icon: 'stats', title: menu.contacts, url: '/profile', count: ''},
+            {_id: 'stats', icon: 'list-circle-outline', title: menu.contacts, url: '/profile', count: ''},
             {_id: '', icon: 'search', title: menu.search, url: '/search', count: ''},
             {_id: '', icon: 'information-circle', title: 'שאלות נפוצות', url: '/faq', count: ''},
             {_id: '', icon: 'mail', title: menu.contact_us, url: '/contact-us', count: ''},
@@ -333,7 +333,7 @@ export class AppComponent implements AfterViewInit {
                 list: 'favorite_me',
                 count: ''
             },
-            {_id: '', icon: 'lock', title: menu.blocked, url: '/home', list: 'black', count: ''}
+            {_id: '', icon: 'lock-closed', title: menu.blocked, url: '/home', list: 'black', count: ''}
 
         ];
 
@@ -368,7 +368,7 @@ export class AppComponent implements AfterViewInit {
             {
                 _id: 'inbox',
                 // src_img: '../assets/img/icons/inbox.png',
-                src_img: '',
+                src_img:'',
                 icon: 'chatbubbles-outline',
                 list: '',
                 title: menu.inbox,
