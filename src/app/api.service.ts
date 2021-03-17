@@ -13,7 +13,8 @@ export class ApiQuery {
 
     data: any = {};
     url: any;
-    routeGroup = '/open_api/v2';
+    openApiUrl = '/open_api/v2';
+    apiUrl = '/api/v2';
     headers: any;
     response: any;
     username: any = 'noname';

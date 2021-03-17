@@ -1,23 +1,18 @@
 import {AfterViewInit, Component, ViewChild} from '@angular/core';
-import {
-    Platform,
-    AlertController, IonRouterOutlet
-} from '@ionic/angular';
+import {AlertController, IonContent, IonNav, IonRouterOutlet, MenuController, Platform} from '@ionic/angular';
 import {StatusBar} from '@ionic-native/status-bar/ngx';
-import {Push, PushOptions, PushObject} from '@ionic-native/push/ngx';
+import {Push, PushObject, PushOptions} from '@ionic-native/push/ngx';
 import {SplashScreen} from '@ionic-native/splash-screen/ngx';
 import {Geolocation} from '@ionic-native/geolocation/ngx';
 import {Market} from '@ionic-native/market/ngx';
 import {ApiQuery} from './api.service';
-import {MenuController} from '@ionic/angular';
 import * as $ from 'jquery';
-import {Router, NavigationEnd, NavigationExtras, NavigationStart} from '@angular/router';
-import {IonNav} from '@ionic/angular';
+import {NavigationEnd, NavigationExtras, Router} from '@angular/router';
 import {Location} from '@angular/common';
 import {Keyboard} from '@ionic-native/keyboard/ngx';
-import {IonContent} from '@ionic/angular';
 import {EventsService} from './events.service';
 import {filter} from 'rxjs/operators';
+import {AppRoutingEnum} from '../appRoutingEnum';
 
 
 @Component({
@@ -79,7 +74,7 @@ export class AppComponent implements AfterViewInit {
                 private events: EventsService) {
 
 
-        this.api.http.get(api.url + api.routeGroup +'/menu', {}).subscribe((data: any) => {
+        this.api.http.get(api.url + api.openApiUrl +'/menu', {}).subscribe((data: any) => {
             this.initMenuItems(data.menu);
         });
         this.keyboard.hide();
@@ -87,13 +82,13 @@ export class AppComponent implements AfterViewInit {
             this.initPushNotification();
             if (!val) {
                 this.menu_items = this.menu_items_logout;
-                this.router.navigate(['/login']);
+                this.router.navigate([AppRoutingEnum.LOGIN_PAGE]).then();
             } else {
                 this.api.setHeaders(true, val.username, val.password);
                 this.menu_items = this.menu_items_login;
                 this.getBingo();
                 if (this.router.url === '/' || this.router.url === '/home') {
-                    this.router.navigate(['/home']);
+                    this.router.navigate([AppRoutingEnum.HOME_PAGE]);
                 }
             }
         });
@@ -136,7 +131,7 @@ export class AppComponent implements AfterViewInit {
     initPushNotification() {
 
         if (!this.platform.is('cordova')) {
-            console.log('Push notifications not initialized. Cordova is not available - Run in physical device');
+            // console.log('Push notifications not initialized. Cordova is not available - Run in physical device');
             return;
         }
         const options: PushOptions = {
@@ -402,40 +397,40 @@ export class AppComponent implements AfterViewInit {
                 list: '',
                 icon: '',
                 title: menu.notifications,
-                url: '/notifications',
+                url: AppRoutingEnum.NOTIFICATIONS_PAGE,
                 count: ''
             },
-            {_id: '', src_img: '', icon: 'search', title: menu.search, list: '', url: '/search', count: ''},
+            {_id: '', src_img: '', icon: 'search', title: menu.search, list: '', url: AppRoutingEnum.SEARCH_PAGE, count: ''},
         ];
     }
 
 
     menu1Active(bool = true) {
         this.activeMenu = 'menu1';
-        this.menu.enable(true, 'menu1');
-        this.menu.enable(false, 'menu2');
-        this.menu.enable(false, 'menu3');
+        this.menu.enable(true, 'menu1').then();
+        this.menu.enable(false, 'menu2').then();
+        this.menu.enable(false, 'menu3').then();
         if (bool) {
-            this.menu.open('menu1');
+            this.menu.open('menu1').then();
         }
     }
 
 
     menu2Active() {
         this.activeMenu = 'menu2';
-        this.menu.enable(false, 'menu1');
-        this.menu.enable(true, 'menu2');
-        this.menu.enable(false, 'menu3');
-        this.menu.toggle('menu2');
+        this.menu.enable(false, 'menu1').then();
+        this.menu.enable(true, 'menu2').then();
+        this.menu.enable(false, 'menu3').then();
+        this.menu.toggle('menu2').then();
     }
 
 
     menu3Active() {
         this.activeMenu = 'menu3';
-        this.menu.enable(false, 'menu1').then(asd => console.log(asd + 'from 1'));
-        this.menu.enable(false, 'menu2').then(asd => console.log(asd + 'from 2'));
-        this.menu.enable(true, 'menu3').then(asd => console.log(asd + 'from 3'));
-        this.menu.open('menu3').then(val => console.log(val + 'from toggle'));
+        this.menu.enable(false, 'menu1').then();
+        this.menu.enable(false, 'menu2').then();
+        this.menu.enable(true, 'menu3').then();
+        this.menu.open('menu3').then();
     }
 
 
@@ -443,11 +438,11 @@ export class AppComponent implements AfterViewInit {
         if (this.activeMenu !== 'menu1') {
             this.menu.toggle();
             this.activeMenu = 'menu1';
-            this.menu.enable(true, 'menu1');
-            this.menu.enable(false, 'menu2');
-            this.menu.enable(false, 'menu3');
-            this.menu.close().then(res => console.log(res));
-            this.menu.toggle();
+            this.menu.enable(true, 'menu1').then();
+            this.menu.enable(false, 'menu2').then();
+            this.menu.enable(false, 'menu3').then();
+            this.menu.close().then();
+            this.menu.toggle().then();
         }
     }
 
@@ -488,9 +483,9 @@ export class AppComponent implements AfterViewInit {
     }
 
     getBanner() {
-        this.api.http.get(this.api.url + '/open_api/v2/banner', this.api.header).subscribe((data: any) => {
+        this.api.http.get(this.api.url + this.api.openApiUrl + '/banner', this.api.header).subscribe((data: any) => {
             this.banner = data.banner;
-            console.log(this.banner);
+            // console.log(this.banner);
         });
     }
 
@@ -512,7 +507,7 @@ export class AppComponent implements AfterViewInit {
             this.menu3Active();
         } else {
             // close the menu when clicking a link from the menu
-            this.menu.close();
+            this.menu.close().then();
 
 
             // navigate to the new page if it is not the current page
@@ -543,7 +538,7 @@ export class AppComponent implements AfterViewInit {
                     logout
                 }
             };
-            this.router.navigate([page.url], navigationExtras);
+            this.router.navigate([page.url], navigationExtras).then();
 
         }
     }
@@ -551,11 +546,10 @@ export class AppComponent implements AfterViewInit {
     getBingo() {
         this.api.storage.get('user_data').then((val) => {
             if (val) {
-                this.api.http.get(this.api.url + '/api/v2/bingo', this.api.setHeaders(true)).subscribe((data: any) => {
-                    this.api.storage.set('status', this.status);
+                this.api.http.get(this.api.url + this.api.apiUrl +'/bingo', this.api.setHeaders(true)).subscribe((data: any) => {
+                    this.api.storage.set('status', this.status).then();
                     this.avatar = data.texts.photo;
                     this.texts = data.texts;
-                    console.log('THERE  2  12334656786484');
                     // DO NOT DELETE
                     if (this.status !== data.status) {
                         this.status = data.status;
@@ -565,9 +559,9 @@ export class AppComponent implements AfterViewInit {
                     }
                     if (data.user) {
                         this.api.data.data = data;
-                        this.router.navigate(['/bingo']);
+                        this.router.navigate([AppRoutingEnum.BINGO_PAGE]).then();
                         // tslint:disable-next-line:no-shadowed-variable
-                        this.api.http.get(this.api.url + '/api/v2/bingo?likeMeId=' + data.user.id,
+                        this.api.http.get(this.api.url + this.api.apiUrl + '/bingo?likeMeId=' + data.user.id,
                             // tslint:disable-next-line:no-shadowed-variable
                             this.api.setHeaders(true)).subscribe(data => {
                         });
@@ -578,7 +572,7 @@ export class AppComponent implements AfterViewInit {
     }
 
     dialogPage() {
-        console.log(this.new_message);
+        // console.log(this.new_message);
         const user = {id: this.new_message.userId};
         this.closeMsg();
         this.api.data.user = user;
@@ -711,8 +705,8 @@ export class AppComponent implements AfterViewInit {
 
             const that = this;
             window.addEventListener('native.keyboardshow', () => {
-                console.log('keyboardshow');
-                $('.link-banner').hide();
+                // console.log('keyboardshow');
+                $('.link-banner').hide()
                 $('.footerMenu, .back-btn').hide();
                 $('.back-btn').hide();
 
@@ -734,12 +728,10 @@ export class AppComponent implements AfterViewInit {
                 }
 
                 if (that.api.pageName === 'EditProfilePage') {
-                    console.log('if uf edit page');
                     $('.container').css({
                         margin: '0 0 197px!important'
                     });
                 } else if (that.api.pageName === 'ProfilePage') {
-                    console.log('if uf profile page');
                     $('.container').css({'margin-bottom': '32px'});
                     $('.abuse-form').css({'padding-bottom': 0});
                     $('.content').css({'padding-bottom': 0});
@@ -770,7 +762,7 @@ export class AppComponent implements AfterViewInit {
                 }
                 if (that.api.pageName === 'EditProfilePage') {
                     $('.container').css({
-                        margin: '0 0 69px!important'
+                        margin: `0 0 69px!important`
                     });
                 } else if (that.api.pageName === 'ProfilePage') {
                     $('.container').css({'margin-bottom': '32px'});

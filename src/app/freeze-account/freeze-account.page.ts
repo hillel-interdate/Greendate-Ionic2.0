@@ -3,12 +3,8 @@ import {ApiQuery} from '../api.service';
 import {Router} from '@angular/router';
 import {IonContent} from '@ionic/angular';
 import * as $ from 'jquery';
+import {AppRoutingEnum} from '../../appRoutingEnum';
 
-/*
- Generated class for the FreezeAccount page.
- See http://ionicframework.com/docs/v2/components/#navigation for more info on
- Ionic pages and navigation.
- */
 @Component({
   selector: 'page-freeze-account',
   templateUrl: 'freeze-account.page.html',
@@ -31,7 +27,7 @@ export class FreezeAccountPage implements OnInit{
   ngOnInit() {
 
     this.api.pageName = 'FreezeAccountPage';
-    this.api.http.get(this.api.url + '/api/v2/freeze', this.api.header).subscribe((data:any) => {
+    this.api.http.get(this.api.url + this.api.apiUrl + '/freeze', this.api.header).subscribe((data:any) => {
       this.form.description = data.description;
       this.err.text = data.error;
     });
@@ -53,7 +49,7 @@ export class FreezeAccountPage implements OnInit{
 
       this.api.http.post(this.api.url + '/api/v1/freezes', params, this.api.header).subscribe((data:any) => this.validate(data));
       this.api.data._id = 'logout';
-      this.router.navigate(['/login'])
+      this.router.navigate([AppRoutingEnum.LOGIN_PAGE]).then();
 
     }
 
