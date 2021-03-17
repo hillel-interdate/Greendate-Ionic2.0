@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="il.co.greendate" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="il.co.greendate" version="2.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>GreenDate</name>
     <description>גרינדייט - אתר הכרויות לצמחונים וטבעונים. מציאת שותף לערכים ולאורח החיים קלה הרבה יותר כאשר מחפשים הכרויות לצמחונים וטבעונים במקום שמוקדש כולו לבני הקהילה. הכרויות לצמחונים, הכרויות לטבעונים - זה המקום למצוא אהבה ללא פשרות.</description>
     <author email="contact@interdate-ltd.co.il" href="http://interdate-ltd.co.il/">Interdate</author>
@@ -125,9 +125,4 @@
     </plugin>
     <plugin name="cordova-plugin-enable-multidex" spec="^0.2.0" />
     <plugin name="cordova-plugin-statusbar" spec="^2.4.2" />
-    <plugin name="phonegap-plugin-push" spec="^2.1.3">
-        <variable name="FCM_VERSION" value="11.6.2" />
-    </plugin>
-    <engine name="android" spec="^8.1.0" />
-    <engine name="ios" spec="^5.0.1" />
 </widget>

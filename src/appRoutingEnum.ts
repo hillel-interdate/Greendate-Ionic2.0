@@ -4,4 +4,5 @@ export enum AppRoutingEnum {
     SEARCH_PAGE = '/search',
     NOTIFICATIONS_PAGE = '/notifications',
     HOME_PAGE = '/home',
+    DIALOG_PAGE = '/dialog',
 }

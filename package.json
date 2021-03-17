@@ -34,7 +34,6 @@
     "@ionic-native/status-bar": "^5.31.1",
     "@ionic/angular": "^5.5.2",
     "@ionic/storage": "^2.3.1",
-    "cordova-android": "^8.1.0",
     "cordova-ios": "5.1.1",
     "cordova-plugin-camera": "^4.1.0",
     "cordova-plugin-facebook4": "^5.0.0",
@@ -43,19 +42,20 @@
     "cordova-plugin-fingerprint-aio": "^1.7.0",
     "cordova-plugin-geolocation": "^4.1.0",
     "cordova-plugin-inapppurchase": "^1.2.0",
-    "cordova-plugin-ionic-keyboard": "^2.2.0",
     "cordova-plugin-market": "^1.2.0",
     "cordova-plugin-splashscreen": "^5.0.4",
     "cordova-plugin-statusbar": "^2.4.3",
     "cordova-plugin-telerik-imagepicker": "^2.3.6",
+    "cordova-support-google-services": "^1.3.2",
     "jquery": "^3.6.0",
+    "phonegap-plugin-multidex": "^1.0.0",
     "phonegap-plugin-push": "^2.3.0",
     "rxjs": "~6.6.0",
     "tslib": "^2.0.0",
     "zone.js": "~0.10.2"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "~0.1101.4",
+    "@angular-devkit/build-angular": "~0.1102.0",
     "@angular/cli": "~11.1.4",
     "@angular/compiler": "~11.2.0",
     "@angular/compiler-cli": "~11.2.0",
@@ -92,7 +92,6 @@
       },
       "cordova-plugin-camera": {},
       "cordova-plugin-file-transfer": {},
-      "cordova-plugin-ionic-keyboard": {},
       "cordova-plugin-geolocation": {},
       "cordova-plugin-splashscreen": {},
       "cordova-plugin-fingerprint-aio": {},
@@ -104,9 +103,6 @@
       },
       "cordova-plugin-inapppurchase": {},
       "cordova-plugin-statusbar": {},
-      "phonegap-plugin-push": {
-        "FCM_VERSION": "11.6.2"
-      },
       "cordova-plugin-market": {},
       "cordova-plugin-whitelist": {},
       "cordova-plugin-device": {},
@@ -117,10 +113,10 @@
       "cordova-plugin-ionic-webview": {
         "ANDROID_SUPPORT_ANNOTATIONS_VERSION": "27.+"
       },
-      "cordova-plugin-enable-multidex": {}
+      "cordova-plugin-enable-multidex": {},
+      "phonegap-plugin-push": {}
     },
     "platforms": [
-      "android",
       "ios"
     ]
   }

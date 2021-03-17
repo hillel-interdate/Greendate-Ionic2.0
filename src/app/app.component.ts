@@ -74,12 +74,12 @@ export class AppComponent implements AfterViewInit {
                 private events: EventsService) {
 
 
-        this.api.http.get(api.url + api.openApiUrl +'/menu', {}).subscribe((data: any) => {
+        this.api.http.get(api.url + api.openApiUrl + '/menu', {}).subscribe((data: any) => {
             this.initMenuItems(data.menu);
         });
         this.keyboard.hide();
         this.api.storage.get('user_data').then((val) => {
-            this.initPushNotification();
+            this.platform.ready().then(() => this.initPushNotification());
             if (!val) {
                 this.menu_items = this.menu_items_logout;
                 this.router.navigate([AppRoutingEnum.LOGIN_PAGE]).then();
@@ -87,8 +87,8 @@ export class AppComponent implements AfterViewInit {
                 this.api.setHeaders(true, val.username, val.password);
                 this.menu_items = this.menu_items_login;
                 this.getBingo();
-                if (this.router.url === '/' || this.router.url === '/home') {
-                    this.router.navigate([AppRoutingEnum.HOME_PAGE]);
+                if (this.router.url === '/' || this.router.url === AppRoutingEnum.HOME_PAGE) {
+                    this.router.navigate([AppRoutingEnum.HOME_PAGE]).then();
                 }
             }
         });
@@ -119,11 +119,11 @@ export class AppComponent implements AfterViewInit {
                 })
             }
         };
-        this.menu.close().then(res => console.log(res));
+        this.menu.close().then();
         if (this.api.pageName === 'HomePage') {
             this.events.setLogo('click');
         } else {
-            this.router.navigate(['/home'], navigationExtras).then();
+            this.router.navigate([AppRoutingEnum.HOME_PAGE], navigationExtras).then();
         }
     }
 
@@ -146,9 +146,11 @@ export class AppComponent implements AfterViewInit {
                 pushServiceURL: 'http://push.api.phonegap.com/v1/push'
             }
         };
+        console.log('initing push notifications');
         const push2: PushObject = this.push.init(options);
+        console.log(push2);
         push2.on('registration').subscribe((data) => {
-            this.api.storage.set('deviceToken', data.registrationId);
+            this.api.storage.set('deviceToken', data.registrationId).then();
             this.api.sendPhoneId(data.registrationId);
         });
 
@@ -160,10 +162,10 @@ export class AppComponent implements AfterViewInit {
                         this.api.data.user = {
                             id: data.additionalData.userFrom
                         };
-                        this.router.navigate(['/dialog']);
+                        this.router.navigate([AppRoutingEnum.DIALOG_PAGE]).then();
                         this.new_message.is_not_sent_today = false;
                     } else {
-                        this.router.navigate(['/login']);
+                        this.router.navigate([AppRoutingEnum.HOME_PAGE]).then();
                     }
                 });
             }
@@ -218,7 +220,6 @@ export class AppComponent implements AfterViewInit {
         });
     }
 
-
     bannerStatus() {
 
         if (this.api.pageName === 'DialogPage' || this.api.pageName === 'EditProfilePage'
@@ -234,7 +235,6 @@ export class AppComponent implements AfterViewInit {
         }
 
     }
-
 
     clearLocalStorage() {
         this.api.setHeaders(false, null, null);
@@ -363,7 +363,7 @@ export class AppComponent implements AfterViewInit {
             {
                 _id: 'inbox',
                 // src_img: '../assets/img/icons/inbox.png',
-                src_img:'',
+                src_img: '',
                 icon: 'chatbubbles-outline',
                 list: '',
                 title: menu.inbox,
@@ -546,7 +546,7 @@ export class AppComponent implements AfterViewInit {
     getBingo() {
         this.api.storage.get('user_data').then((val) => {
             if (val) {
-                this.api.http.get(this.api.url + this.api.apiUrl +'/bingo', this.api.setHeaders(true)).subscribe((data: any) => {
+                this.api.http.get(this.api.url + this.api.apiUrl + '/bingo', this.api.setHeaders(true)).subscribe((data: any) => {
                     this.api.storage.set('status', this.status).then();
                     this.avatar = data.texts.photo;
                     this.texts = data.texts;
@@ -706,7 +706,7 @@ export class AppComponent implements AfterViewInit {
             const that = this;
             window.addEventListener('native.keyboardshow', () => {
                 // console.log('keyboardshow');
-                $('.link-banner').hide()
+                $('.link-banner').hide();
                 $('.footerMenu, .back-btn').hide();
                 $('.back-btn').hide();
 

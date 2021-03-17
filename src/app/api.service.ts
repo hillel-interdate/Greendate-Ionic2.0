@@ -40,8 +40,8 @@ export class ApiQuery {
         // export JAVA_HOME=`/usr/libexec/java_home -v 1.8.0_221`
         if (isDevMode()) {
             // console.log('devmode');
-            // this.url = 'http://localhost:8100';
-            this.url = 'https://www.greendate.co.il';
+            this.url = 'http://localhost:8100';
+            // this.url = 'https://www.greendate.co.il';
         } else {
             // console.log('not dev mode');
             this.url = 'https://www.greendate.co.il';
@@ -61,7 +61,7 @@ export class ApiQuery {
         // alert('in send phone id from api page  ,will send this: ' + idPhone);
         const data = JSON.stringify({phone_id: idPhone});
         // tslint:disable-next-line:no-shadowed-variable
-        this.http.post(this.url + '/api/v2/phones', data, this.setHeaders(true)).subscribe(data => {
+        this.http.post(this.url + this.apiUrl +'/phones', data, this.setHeaders(true)).subscribe(data => {
             // alert('data after send id: ' + JSON.stringify(data));
         }, err => console.log(`error was in send phone:  ${err}`));
     }

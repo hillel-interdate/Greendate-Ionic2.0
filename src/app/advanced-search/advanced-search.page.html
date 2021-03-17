@@ -14,7 +14,7 @@
 
 <ion-content overflow-scroll='false'>
   <div class="container">
-    <div *ngIf="fromCache" class="by-default" (click)="resetForm()" class="border-top" >חזרה למצב ברירת מחדל</div>
+    <div *ngIf="fromCache" (click)="resetForm()" class="border-top by-default" >חזרה למצב ברירת מחדל</div>
 
     <div *ngFor="let field of formKeys; let i = index" [attr.data-index]="i">
       <div class="border-top" *ngIf="form[field].type == 'entity'">

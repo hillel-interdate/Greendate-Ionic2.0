@@ -59,7 +59,7 @@ export class DialogPage implements OnInit {
             this.api.setHeaders(true)).subscribe((data: any) => {
             // alert(1)
             $('.footerMenu').hide();
-            console.log(data);
+            // console.log(data);
             this.user = data.dialog.contact;
             this.texts = data.texts;
             this.messages = data.history;
@@ -70,20 +70,20 @@ export class DialogPage implements OnInit {
                     // alert(2)
                 }
             }
-            console.log(this.notReadMessage);
-            console.log(this.messages);
+            // console.log(this.notReadMessage);
+            // console.log(this.messages);
             this.scrollToBottom(500, 0);
             this.addMoreMessages = this.messages.length >= 30;
-            console.log(this.addMoreMessages);
+            // console.log(this.addMoreMessages);
         }, err => {
-            console.log('Oops!');
+            console.log('Oops!', err);
         });
     }
 
     scrollToBottom(t, s = 300) {
         //// alert(1);
         setTimeout(() => {
-            console.log('will scroll');
+            // console.log('will scroll');
             this.content.scrollToBottom(s);
         }, t);
     }
@@ -130,7 +130,7 @@ export class DialogPage implements OnInit {
                 messPoss: this.messages.length ? this.messages.length : 0
             }
         };
-        console.log(this.messData);
+        // console.log(this.messData);
         this.messages.push(this.messData.message);
         // this.scrollToBottom(150);
         this.message = '';
@@ -159,18 +159,18 @@ export class DialogPage implements OnInit {
 
     moreMessages(event) {
 
-        console.log('more users run');
+        // console.log('more users run');
 
         if (this.addMoreMessages) {
             this.page++;
             this.api.http.get(this.api.url + '/api/v2/dialogs/' + this.user.id + '?per_page=30&page=' + this.page,
                 this.api.setHeaders(true)).subscribe((data: any) => {
-                console.log(data);
+                // console.log(data);
                 // $('.messages').css('overflow', 'hidden');
                 for (const message of data.history) {
                     this.messages.unshift(message);
                 }
-                console.log(this.messages);
+                // console.log(this.messages);
                 this.addMoreMessages = data.history.length >= 30;
             });
         }
@@ -185,7 +185,7 @@ export class DialogPage implements OnInit {
         const myLastMess = this.notReadMessage.slice(-1)[0] ? this.notReadMessage.slice(-1)[0] : false;
 
         // var notReadMessageStr = '?messages=['+messagesIds+']';
-        console.log(this.notReadMessage);
+        // console.log(this.notReadMessage);
 
         // this.api.http.get(this.api.url + '/api/v2/chats/' + this.user.id + '/new/messages' + notReadMessageStr,
         // this.api.setHeaders(true)).subscribe((data:any) => {
@@ -194,14 +194,14 @@ export class DialogPage implements OnInit {
 
             if (data.lastIsRead && data.lastIsRead[0].isRead === 1 && this.allowedToReadMessage) {
                 // alert(1);
-                console.log(this.notReadMessage);
+                // console.log(this.notReadMessage);
                 for (let y = this.messages.length - 1, x = 0; x < this.notReadMessage.length; x++, y--) {
                     this.messages[y].isRead = true;
-                    console.log(this.messages);
+                    // console.log(this.messages);
                 }
                 this.notReadMessage = [];
             }
-            console.log('new ' + JSON.stringify(data));
+            // console.log('new ' + JSON.stringify(data));
             if (data.newMessages && data.newMessages.length > 0) {
                 // //alert(1);
                 for (const message of data.newMessages) {
@@ -211,7 +211,7 @@ export class DialogPage implements OnInit {
                     } else {
                         for (let y = this.messages.length - 1, x = 0; x < this.notReadMessage.length; x++, y--) {
                             this.messages[y].isRead = true;
-                            console.log(this.messages);
+                            // console.log(this.messages);
                         }
                         this.notReadMessage = [];
                     }
