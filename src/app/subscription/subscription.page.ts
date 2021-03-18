@@ -2,6 +2,9 @@ import {Component, OnInit} from '@angular/core';
 import {ApiQuery} from '../api.service';
 import {Platform} from '@ionic/angular';
 import {InAppPurchase} from '@ionic-native/in-app-purchase/ngx';
+import {HomePage} from '../home/home.page';
+import {AppRoutingEnum} from '../../appRoutingEnum';
+import {Router} from '@angular/router';
 
 @Component({
     selector: 'app-subscription',
@@ -13,31 +16,49 @@ export class SubscriptionPage implements OnInit {
     page: any;
     public platform: string;
 
-    constructor(public api: ApiQuery, private platformService: Platform, private iap: InAppPurchase) {
-        // if (this.platformService.is('cordova')) {
-        this.platform = this.platformService.is('android') ? 'android' : 'ios';
-        // if (this.platform !== 'ios') {
+    constructor(public api: ApiQuery, private platformService: Platform, private iap: InAppPurchase, private  router: Router) {
+        this.platform = this.platformService.is('ios') ? 'ios' : 'android';
         this.api.http.get(api.url + '/app_dev.php/api/v2/user/subscribe', this.api.setHeaders(true)).subscribe((data: any) => {
             this.page = data;
+            if (this.platformService.is('ios')) {
+                this.iap.getProducts(this.page.productsList)
+                    .then(prods => {
+                        this.page.payments = prods;
+                        console.log(prods);
+                    })
+                    .catch(err => console.log(err));
+            }
         });
-        // } else {
-        //     this.iap.getProducts(['1', '2', '3', '4']).then(prods => console.log(prods));
-        // }
-        // }
     }
 
 
     ngOnInit() {
     }
 
-    subscribe(payment) {
-        window.open(this.page.url + '&payPeriod=' + payment.period + '&prc=' + btoa(payment.amount), '_blank');
+    async subscribe(product) {
+        if (this.platform === 'ios') {
+            try {
+                const success = await this.iap.subscribe(product.productId);
+                if (success) {
+                    const history = await this.iap.restorePurchases();
+                    console.log(history)
+                    if (history) {
+                this.api.http.post(this.api.url + this.api.apiUrl + '/subs', JSON.stringify({history}), this.api.setHeaders(true))
+                            .subscribe(data => {
+                                this.router.navigate([AppRoutingEnum.HOME_PAGE]).then();
+                            }, err => console.log(err));
+                    }
+                }
+            } catch (err) {
+                this.page.error = 'לא היה ניתן להשלים את הקניה';
+                console.log(err);
+            }
+        } else {
+            window.open(this.page.url + '&payPeriod=' + product.period + '&prc=' + btoa(product.amount), '_blank');
+        }
         return false;
     }
 
-    subscribeIos() {
-        console.log('subscribing to ios');
-    }
 
     ionViewWillEnter() {
         this.api.pageName = 'SubscriptionPage';

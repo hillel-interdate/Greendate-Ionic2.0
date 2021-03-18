@@ -59,7 +59,7 @@ export class ApiQuery {
     sendPhoneId(idPhone) {
         //  alert('in send id , api page, id: ' + JSON.stringify(idPhone));
         // alert('in send phone id from api page  ,will send this: ' + idPhone);
-        const data = JSON.stringify({phone_id: idPhone});
+        const data = {phone_id: idPhone};
         // tslint:disable-next-line:no-shadowed-variable
         this.http.post(this.url + this.apiUrl +'/phones', data, this.setHeaders(true)).subscribe(data => {
             // alert('data after send id: ' + JSON.stringify(data));

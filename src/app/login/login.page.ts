@@ -9,8 +9,9 @@ import * as $ from 'jquery';
 import {AlertController} from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import {Platform} from '@ionic/angular';
-import { Keyboard } from '@ionic-native/keyboard/ngx';
+// import { Keyboard } from '@ionic-native/keyboard/ngx';
 import {EventsService} from '../events.service';
+import {AppRoutingEnum} from '../../appRoutingEnum';
 
 
 @Component({
@@ -41,15 +42,16 @@ export class LoginPage implements OnInit {
               public splashScreen: SplashScreen,
               public toastCtrl: ToastController,
               public platform: Platform,
-              public keyboard: Keyboard) {}
+              // public keyboard: Keyboard
+              ) {}
 
   ngOnInit() {
-    window.addEventListener('keyboardWillShow', () => {
-      $('.small-btnim').css({'padding-bottom': '8px'});
-    });
-    window.addEventListener('keyboardWillHide', () => {
-      $('.small-btnim').css({'padding-bottom': '40px'});
-    });
+    // window.addEventListener('keyboardWillShow', () => {
+    //   $('.small-btnim').css({'padding-bottom': '8px'});
+    // });
+    // window.addEventListener('keyboardWillHide', () => {
+    //   $('.small-btnim').css({'padding-bottom': '40px'});
+    // });
 
     this.splashScreen.hide();
     this.api.showLoad();
@@ -126,7 +128,7 @@ export class LoginPage implements OnInit {
         this.api.setHeaders(true, data.user.username, data.user.password);
         const that = this;
         setTimeout( () => {
-          that.router.navigate(['/home']).then();
+          that.router.navigate([AppRoutingEnum.HOME_PAGE]).then();
         }, 5000 );
         this.api.storage.get('deviceToken').then((deviceToken) => {
           if (deviceToken) { this.api.sendPhoneId(deviceToken); }

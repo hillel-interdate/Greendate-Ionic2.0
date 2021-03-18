@@ -1,0 +1,58 @@
+POST https://www.greendate.co.il//api/v2/subs
+Content-Type: application/json
+authorization:  Basic dGVzdGVyMjI6MTExMTExMQ==
+
+{ "month": "new",
+  "history": [
+    {
+      "productId": "greendate.oneMonth",
+      "date": "2021-03-18T14:16:19Z",
+      "transactionId": "1000000790699393",
+      "state": 3
+    },
+    {
+      "productId": "greendate.oneMonth",
+      "date": "2021-03-18T13:43:07Z",
+      "transactionId": "1000000790699394",
+      "state": 3
+    },
+    {
+      "productId": "greendate.oneMonth",
+      "date": "2021-03-18T13:48:53Z",
+      "transactionId": "1000000790699395",
+      "state": 3
+    },
+    {
+      "productId": "greendate.oneMonth",
+      "date": "2021-03-18T14:08:44Z",
+      "transactionId": "1000000790699396",
+      "state": 3
+    },
+    {
+      "productId": "greendate.oneMonth",
+      "date": "2021-03-18T13:37:20Z",
+      "transactionId": "1000000790699397",
+      "state": 3
+    },
+    {
+      "productId": "greendate.oneMonth",
+      "date": "2021-03-18T13:21:44Z",
+      "transactionId": "1000000790699398",
+      "state": 3
+    },
+    {
+      "productId": "greendate.oneMonth",
+      "date": "2021-03-18T13:26:44Z",
+      "transactionId": "1000000790699399",
+      "state": 3
+    },
+    {
+      "productId": "greendate.oneMonth",
+      "date": "2021-03-18T13:16:44Z",
+      "transactionId": "1000000790699400",
+      "state": 3
+    }
+  ]
+}
+
+###

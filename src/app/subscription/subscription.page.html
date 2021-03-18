@@ -7,13 +7,14 @@
 <ion-content>
     <div *ngIf="page" class="page">
         <h1>{{ page.textBefore[0].title }}</h1>
+        <h3 *ngIf="page.err">{{page.err}} </h3>
         <div class="text" *ngFor="let tb of page.textBefore">
             <div *ngIf="tb.text && tb.text.length > 0" [innerHTML]="tb.text"></div>
         </div>
         <div class="subscriptions">
-<!--            <ng-container *ngIf="platform === 'android' else iosPayment">-->
-                <div class="subscription" *ngFor="let payment of page.payments" (click)="subscribe(payment)">
-                    <div class="wrap-pay">
+            <div class="subscription" *ngFor="let payment of page.payments" (click)="subscribe(payment)">
+                <div class="wrap-pay">
+                    <ng-container *ngIf="platform !=='ios' else iosTemplate">
                         <div class="chackbox"><span></span></div>
                         <div class="title">{{ payment.title }}</div>
                         <div class="price">₪{{ payment.amount }}</div>
@@ -22,23 +23,18 @@
                             <span class="dollar">₪</span><span>{{ payment.price }}</span>
                             <span class="month">{{ payment.text_price }}</span>
                         </div>
-                    </div>
-                </div>
-<!--            </ng-container>-->
-            <ng-template #iosPayment>
-                <div class="subscription" *ngFor="let payment of page.payments" (click)="subscribeIos(payment)">
-                    <div class="wrap-pay">
+                    </ng-container>
+                    <ng-template #iosTemplate>
                         <div class="chackbox"><span></span></div>
                         <div class="title">{{ payment.title }}</div>
-                        <div class="price">₪{{ payment.price }}</div>
+                        <div class="price">₪{{ payment.amount  }}</div>
                         <div class="description">{{ payment.description }}</div>
                         <div class="month-price">
-                            <span class="dollar">₪</span><span>{{ payment.price }}</span>
-                            <span class="month">{{ payment.text_price }}</span>
+                            <span>{{ payment.price }}</span>
                         </div>
-                    </div>
+                    </ng-template>
                 </div>
-            </ng-template>
+            </div>
         </div>
         <div class="table-subs">
             <div class="header-table">
