@@ -9,7 +9,7 @@ import {ApiQuery} from './api.service';
 import * as $ from 'jquery';
 import {NavigationEnd, NavigationExtras, Router} from '@angular/router';
 import {Location} from '@angular/common';
-import {Keyboard} from '@ionic-native/keyboard/ngx';
+// import {Keyboard} from '@ionic-native/keyboard/ngx';
 import {EventsService} from './events.service';
 import {filter} from 'rxjs/operators';
 import {AppRoutingEnum} from '../appRoutingEnum';
@@ -20,7 +20,7 @@ import {AppRoutingEnum} from '../appRoutingEnum';
     templateUrl: 'app.component.html',
     // providers: [Geolocation, MenuController, Push, Market, Nav, GestureController, TransitionController,
     // DomController, AlertController, Events],
-    providers: [Keyboard],
+    // providers: [Keyboard],
     styleUrls: ['app.scss']
 
 
@@ -69,7 +69,7 @@ export class AppComponent implements AfterViewInit {
                 public statusBar: StatusBar,
                 public splashScreen: SplashScreen,
                 public push: Push,
-                public keyboard: Keyboard,
+                // public keyboard: Keyboard,
                 public market: Market,
                 private events: EventsService) {
 
@@ -77,7 +77,7 @@ export class AppComponent implements AfterViewInit {
         this.api.http.get(api.url + api.openApiUrl + '/menu', {}).subscribe((data: any) => {
             this.initMenuItems(data.menu);
         });
-        this.keyboard.hide();
+        // this.keyboard.hide();
         this.api.storage.get('user_data').then((val) => {
             this.platform.ready().then(() => this.initPushNotification());
             if (!val) {
@@ -112,11 +112,7 @@ export class AppComponent implements AfterViewInit {
         this.api.back = false;
         const navigationExtras: NavigationExtras = {
             queryParams: {
-                params: JSON.stringify({
-                    action: 'search',
-                    filter: 'new',
-                    page: '1'
-                })
+                params: {action: 'search', filter: 'new', page: '1'}
             }
         };
         this.menu.close().then();
@@ -179,10 +175,10 @@ export class AppComponent implements AfterViewInit {
 
     setLocation() {
         this.geolocation.getCurrentPosition().then(pos => {
-            const params = JSON.stringify({
+            const params = {
                 latitude: pos.coords.latitude.toString(),
                 longitude: pos.coords.longitude.toString()
-            });
+            };
 
             this.api.http.post(this.api.url + '/api/v2/locations', params, this.api.setHeaders(true)).subscribe(data => {
             });
@@ -690,7 +686,7 @@ export class AppComponent implements AfterViewInit {
                 }
             });
             setTimeout(() => {
-                this.keyboard.hide();
+                // this.keyboard.hide();
                 setTimeout(() => {
                     $('ion-content').css({height: '100%'});
                 }, 100);

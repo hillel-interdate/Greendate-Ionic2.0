@@ -44,10 +44,7 @@ export class ArenaPage implements OnInit {
         this.api.pageName = 'ArenaPage';
         const user_id = this.api.data.user ? this.api.data.user : '';
 
-        const params = JSON.stringify({
-            action: 'arena',
-            user_id
-        });
+        const params = {action: 'arena', user_id};
 
         this.api.http.post(this.api.url + '/api/v2/users/results', params, this.api.setHeaders(true)).subscribe((data: any) => {
             console.log(data);
@@ -84,7 +81,7 @@ export class ArenaPage implements OnInit {
     }
 
     setNotifications() {
-        this.events.user.pipe(filter(user => user.type === 'created')).subscribe( (user) => {
+        this.events.user.pipe(filter(user => user.type === 'created')).subscribe((user) => {
             console.log('Welcome', user, 'at');
             this.notifications = user.notifications;
         });
@@ -95,9 +92,7 @@ export class ArenaPage implements OnInit {
 
         if (str === 'like') {
 
-            const params = JSON.stringify({
-                toUser: user.id,
-            });
+            const params = {toUser: user.id,};
 
             this.api.http.post(this.api.url + '/api/v2/likes/' + user.id, params, this.api.setHeaders(true)).subscribe(data => {
                 console.log(data);
@@ -145,12 +140,7 @@ export class ArenaPage implements OnInit {
 
         // this.renderUsers[this.index].url = this.renderUsers[this.index].image.replace('h_300,w_300', 'h_500,w_500');
         const navigationExtras: NavigationExtras = {
-            queryParams: {
-                data: JSON.stringify({
-                    user: this.renderUsers[this.index]
-                })
-            }
-        };
+            queryParams: {data:{user: this.renderUsers[this.index]}}};
         this.router.navigate(['/profile'], navigationExtras);
     }
 

@@ -4,7 +4,7 @@ import {IonContent} from '@ionic/angular';
 import {Router, ActivatedRoute} from '@angular/router';
 import {Location} from '@angular/common';
 import {ChangeDetectorRef} from '@angular/core';
-import {Keyboard} from '@ionic-native/keyboard/ngx';
+// import {Keyboard} from '@ionic-native/keyboard/ngx';
 import {Platform} from '@ionic/angular';
 
 /*
@@ -55,7 +55,7 @@ export class ProfilePage {
                 public navLocation: Location,
                 public router: Router,
                 public route: ActivatedRoute,
-                public keyboard: Keyboard,
+                // public keyboard: Keyboard,
                 private changeRef: ChangeDetectorRef,
                 public platform: Platform) {
     }
@@ -153,7 +153,7 @@ export class ProfilePage {
     ionViewWillEnter() {
         this.api.pageName = 'ProfilePage';
         // window.addEventListener('keyboardWillShow', this.onOpenKeyboard);
-        window.addEventListener('keyboardWillHide', this.onHideKeyboard);
+        // window.addEventListener('keyboardWillHide', this.onHideKeyboard);
     }
 
 
@@ -261,14 +261,14 @@ export class ProfilePage {
     reportAbuseClose() {
         this.isAbuseOpen = false;
         this.formReportAbuse.text.value = '';
-        this.keyboard.hide();
+        // this.keyboard.hide();
         $('.footerMenu').show();
         $('.pmtitle.bottom').css({'margin-bottom': '66px'});
     }
 
 
     closeKeyboard() {
-        this.keyboard.hide();
+        // this.keyboard.hide();
     }
 
     abuseSubmit() {
@@ -288,7 +288,7 @@ export class ProfilePage {
 
 
     ionViewWillLeave() {
-        this.keyboard.hide();
+        // this.keyboard.hide();
         // window.removeEventListener('keyboardWillShow', this.onOpenKeyboard);
         // window.removeEventListener('keyboardWillHide', this.onHideKeyboard);
     }

@@ -204,11 +204,11 @@ export class ChangePhotosPage implements OnInit{
       buttons: [
         {
           text: this.dataPage.texts.choose_from_camera,
-          icon: 'aperture',
+          icon: 'camera-outline',
           handler: () => this.openCamera()
         }, {
           text: this.dataPage.texts.choose_from_gallery,
-          icon: 'photos',
+          icon: 'image-outline',
           handler: () => this.openGallery()
         }, {
           text: this.dataPage.texts.cancel,

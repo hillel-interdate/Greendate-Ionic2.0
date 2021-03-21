@@ -19,7 +19,7 @@
         <div class="question" (click)="status(q.name, qa.q)"
              [class.highlight]="hightlightStatus[i]" [attr.data-selected]="false"><b>{{qa.q }}</b>
         </div>
-        <div class="answer" *ngIf="hightlightStatus[q.name][qa.q]" [innerHTML]="qa.a">
+        <div class="answer" *ngIf="hightlightStatus[q.name][qa.q]"  [textContent]="qa.a">
         </div>
       </div>
     </div>

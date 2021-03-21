@@ -11,46 +11,41 @@ import {Router} from '@angular/router';
 
 
 @Component({
-  selector: 'page-faq',
-  templateUrl: 'faq.page.html',
-  styleUrls: ['faq.page.scss']
+    selector: 'page-faq',
+    templateUrl: 'faq.page.html',
+    styleUrls: ['faq.page.scss']
 })
 export class FaqPage {
 
-  page: any;
+    page: any;
 
-  hightlightStatus: any = [];
-
-
-  constructor(public api: ApiQuery,
-              public router: Router) {}
+    hightlightStatus: any = [];
 
 
-  status(name, quest) {
-    this.hightlightStatus[name][quest] = !this.hightlightStatus[name][quest];
-  }
-
-  ngOnInit() {
-    this.api.pageName = 'FaqPage';
-    this.api.http.get(this.api.url + '/open_api/faq', this.api.header).subscribe((data:any) => {
-      this.page = data.content;
-      console.log(this.page);
+    constructor(public api: ApiQuery,
+                public router: Router) {
+    }
 
 
+    status(name, quest) {
+        this.hightlightStatus[name][quest] = !this.hightlightStatus[name][quest];
+    }
 
-      /**
-       *  set to hightlightStatus a view status of each question by default (false)
-       *
-       */
-      for(const qa of this.page) {
-        this.hightlightStatus[qa.name] = [];
-        for(const a of qa) {
-          this.hightlightStatus[qa.name][a].push('false');
-        }
-      }
-
-      console.log(this.hightlightStatus);
-    });
-  }
+    ngOnInit() {
+        this.api.pageName = 'FaqPage';
+        this.api.http.get(this.api.url + '/open_api/faq', this.api.header).subscribe((data: any) => {
+            this.page = data.content;
+            /**
+             *  set to hightlightStatus a view status of each question by default (false)
+             *
+             */
+            for (const qa of this.page) {
+                this.hightlightStatus[qa.name] = {};
+                for (const a of qa.faq) {
+                    this.hightlightStatus[qa.name][a] = ('false');
+                }
+            }
+        });
+    }
 
 }

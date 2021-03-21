@@ -37,22 +37,18 @@ export class SubscriptionPage implements OnInit {
 
     async subscribe(product) {
         if (this.platform === 'ios') {
-            try {
-                const success = await this.iap.subscribe(product.productId);
-                if (success) {
-                    const history = await this.iap.restorePurchases();
-                    console.log(history)
-                    if (history) {
-                this.api.http.post(this.api.url + this.api.apiUrl + '/subs', JSON.stringify({history}), this.api.setHeaders(true))
-                            .subscribe(data => {
-                                this.router.navigate([AppRoutingEnum.HOME_PAGE]).then();
-                            }, err => console.log(err));
-                    }
+            this.iap.subscribe(product.productId).then(async success => {
+                console.log(success);
+                const history = await this.iap.restorePurchases();
+                console.log(history);
+                if (history) {
+                    this.api.http.post(this.api.url + this.api.apiUrl + '/subs',
+                        {history, month: 'new'}, this.api.setHeaders(true))
+                        .subscribe(data => {
+                            this.router.navigate([AppRoutingEnum.HOME_PAGE]).then();
+                        }, err => console.log(err));
                 }
-            } catch (err) {
-                this.page.error = 'לא היה ניתן להשלים את הקניה';
-                console.log(err);
-            }
+            }).catch(err => console.log(err));
         } else {
             window.open(this.page.url + '&payPeriod=' + product.period + '&prc=' + btoa(product.amount), '_blank');
         }

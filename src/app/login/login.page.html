@@ -9,34 +9,31 @@
 <ion-content class="bg-image">
 
 
-
     <div class="login-form" vertical="bottom" style="position: absolute; bottom: 0; right: 0; left: 0;">
         <div *ngIf="fbId" class="text-login-fb">
             <h2>{{form?.login.facebook.login_text_h }}</h2>
             <p>{{form?.login.facebook.login_text_p  }}</p>
         </div>
-        <ion-input [(ngModel)]="form?.login.username.value" type="text" placeholder="{{ form?.login.username.label }}"></ion-input>
-        <ion-input [(ngModel)]="form?.login.password.value" type="password" placeholder="{{ form?.login.password.label }}"></ion-input>
+        <ion-input [(ngModel)]="form?.login.username.value" type="text"
+                   placeholder="{{ form?.login.username.label }}"></ion-input>
+        <ion-input [(ngModel)]="form?.login.password.value" type="password"
+                   placeholder="{{ form?.login.password.label }}"></ion-input>
         <div color="red" class="err">{{ errors }}</div>
 
 
-
         <div class="login-btn">
-            <ion-button  color="danger" class="ion-margin-vertical" (click)=formSubmit()  expand="block" >{{ form?.login.submit }}</ion-button>
+            <ion-button color="danger" class="ion-margin-vertical" (click)=formSubmit()>{{ form?.login.submit }}</ion-button>
+            <ion-button color="danger" (click)="fingerAuthentication()" *ngIf="fingerAuth">
+                <ion-icon slot="icon-only" name="finger-print"></ion-icon>
+            </ion-button>
+            <ion-button color="danger"  (click)="loginFB()"><ion-icon slot="icon-only" name="logo-facebook"></ion-icon></ion-button>
         </div>
-        <div class="btn-focus">
-
-            <div *ngIf="fingerAuth" class="finger-login">
-                <ion-button color="danger" (click)="fingerAuthentication()" expand="block" >
-                    {{ form?.login.finger_login }}
-                </ion-button>
-            </div>
-        </div>
-        <ion-button expand="block" color="danger" class="fbbtn"  (click)="loginFB()">  <img src="https://m.zigzug.co.il/images/facebook1.png" class="facebook-login"> {{form?.login.facebook.login_button}}   </ion-button>
         <div class="small-btnim ion-padding">
 
-            <ion-button  class="btn" color="danger"  routerLink="/registration" routerDirection="forward">{{ form?.login.join_free }}</ion-button>
-            <ion-button class="btn" color="medium" side="end" routerLink="/password-recovery" routerDirection="forward">{{ form?.login.forgot_password }}</ion-button>
+            <ion-button class="btn" color="danger" routerLink="/registration"
+                        routerDirection="forward">{{ form?.login.join_free }}</ion-button>
+            <ion-button class="btn" color="medium" side="end" routerLink="/password-recovery"
+                        routerDirection="forward">{{ form?.login.forgot_password }}</ion-button>
         </div>
     </div>
     <div class="clr"></div>

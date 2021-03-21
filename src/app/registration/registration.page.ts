@@ -45,12 +45,13 @@ export class RegistrationPage implements OnInit {
     facebook_id: any;
 
     constructor(// public http: Http,
-                public api: ApiQuery,
-                public modalCtrl: ModalController,
-                public router: Router,
-                public route: ActivatedRoute,
-                public events: EventsService,
-                private sanitizer: DomSanitizer) {}
+        public api: ApiQuery,
+        public modalCtrl: ModalController,
+        public router: Router,
+        public route: ActivatedRoute,
+        public events: EventsService,
+        private sanitizer: DomSanitizer) {
+    }
 
 
     ngOnInit() {
@@ -66,8 +67,8 @@ export class RegistrationPage implements OnInit {
         this.route.queryParams.subscribe((params: any) => {
             const data = JSON.parse(params.params);
             if (data.user) {
-               // alert(data.user.facebook_id);
-               // alert(JSON.stringify(this.user));
+                // alert(data.user.facebook_id);
+                // alert(JSON.stringify(this.user));
                 this.facebook_id = data.user.facebook_id;
                 // alert(JSON.stringify(this.user));
                 // this.form.username.value = data.user.username;
@@ -100,7 +101,7 @@ export class RegistrationPage implements OnInit {
         await modal.present();
 
         modal.onDidDismiss().then(data => {
-             if (data.data) {
+            if (data.data) {
                 this.form[fieldTitle].value = data.data.value;
                 this.usersChooses[fieldTitle] = data.data.label;
 
@@ -118,7 +119,7 @@ export class RegistrationPage implements OnInit {
         return new Date().getFullYear() - 18;
     }
 
-    onOpenKeyboard()  {
+    onOpenKeyboard() {
         $('.footerMenu').hide();
         $('.container').css({
             margin: '11px auto 197px!important'
@@ -127,21 +128,21 @@ export class RegistrationPage implements OnInit {
 
 
     onHideKeyboard() {
-      $('.container').css({
-          margin: '11px auto 69px!important'
-      });
-      $('.footerMenu').show();
+        $('.container').css({
+            margin: '11px auto 69px!important'
+        });
+        $('.footerMenu').show();
     }
 
     formSubmit() {
-
+        console.log(this.form.step);
         this.err = {};
         this.allfields = '';
         this.api.showLoad();
 
         let data: any;
 
-        if (this.form.step !== 1) {
+        if (this.form.step === 1) {
             let date_arr = ['', '', ''];
             console.log(this.birth);
             if (typeof this.birth !== 'undefined') {
@@ -150,7 +151,7 @@ export class RegistrationPage implements OnInit {
             }
             this.user = {
                 username: this.form.username.value,
-                email:  this.form.email.value,
+                email: this.form.email.value,
                 password: this.form.password.first.value,
                 gender: this.form.gender.value,
                 birthday: {
@@ -167,31 +168,31 @@ export class RegistrationPage implements OnInit {
 
             data = {
 
-                    // flow_signUpApi_instance: this.form.flow_signUpApi_instance.value,
-                    // flow_signUpApi_step: this.form.flow_signUpApi_step.value,
-                    signUpOne: {
-                        username: this.form.username.value,
-                        email:  this.form.email.value,
-                        password: {
-                            first: this.form.password.first.value,
-                            second: this.form.password.second.value
-                        },
-                        gender: this.form.gender.value,
-                        birthday: {
-                            day: parseInt(date_arr[2]),
-                            month: parseInt(date_arr[1]),
-                            year: parseInt(date_arr[0])
-                        },
-                        phone: this.form.phone.value,
-                        agree: this.form.agree.value,
-                        agreeSendEmails: this.form.agreeSendEmails.value,
-                        // _token: this.form._token.value
-                    }
+                // flow_signUpApi_instance: this.form.flow_signUpApi_instance.value,
+                // flow_signUpApi_step: this.form.flow_signUpApi_step.value,
+                signUpOne: {
+                    username: this.form.username.value,
+                    email: this.form.email.value,
+                    password: {
+                        first: this.form.password.first.value,
+                        second: this.form.password.second.value
+                    },
+                    gender: this.form.gender.value,
+                    birthday: {
+                        day: parseInt(date_arr[2]),
+                        month: parseInt(date_arr[1]),
+                        year: parseInt(date_arr[0])
+                    },
+                    phone: this.form.phone.value,
+                    agree: this.form.agree.value,
+                    agreeSendEmails: this.form.agreeSendEmails.value,
+                    // _token: this.form._token.value
+                }
 
             };
             // if(this.form.flow_signUpApi_instance){
-                // data.flow_signUpApi_instance = this.form.flow_signUpApi_instance.value;
-                // data.flow_signUpApi_step = this.form.flow_signUpApi_step.value;
+            // data.flow_signUpApi_instance = this.form.flow_signUpApi_instance.value;
+            // data.flow_signUpApi_step = this.form.flow_signUpApi_step.value;
             // }
 
             data = JSON.stringify(data);
@@ -289,7 +290,7 @@ export class RegistrationPage implements OnInit {
             data = JSON.stringify(data);
 
         }
-       // alert(JSON.stringify(this.user));
+        // alert(JSON.stringify(this.user));
         this.api.http.post(this.api.url + '/open_api/v2/signs/ups/news.json', data, this.api.setHeaders()).subscribe((res: any) => {
             this.validate(res);
         }, () => this.api.hideLoad());
@@ -315,12 +316,12 @@ export class RegistrationPage implements OnInit {
                 user_photo: response.photo
             });
             this.events.setStatus('login');
-           // let that = this;
+            // let that = this;
             this.api.storage.get('deviceToken').then((val) => {
-               this.api.sendPhoneId(val);
-           });
+                this.api.sendPhoneId(val);
+            });
             const data = {
-               // status: 'init',
+                // status: 'init',
                 username: this.user.username,
                 password: this.user.password
             };
@@ -334,7 +335,6 @@ export class RegistrationPage implements OnInit {
             this.router.navigate(['/change-photos'], navigationExtras);
 
 
-
         } else if (typeof response.user.form.step !== 'undefined' && response.user.form.step === (this.form.step + 1)) {
             console.log('in the valid if');
             this.form = response.user.form;
@@ -342,9 +342,9 @@ export class RegistrationPage implements OnInit {
             this.formKeys = this.getKeys(this.form);
             console.log(this.form);
             if ((this.form.step === 2)) {
-                 // delete option gey for womans ond lesbit for mans
+                // delete option gey for womans ond lesbit for mans
                 if (this.user.gender === 1) {
-                 this.form.sexOrientation.choices.splice(2, 1);
+                    this.form.sexOrientation.choices.splice(2, 1);
                 } else if (this.user.gender === 2) {
                     this.form.sexOrientation.choices.splice(1, 1);
                 }
@@ -355,31 +355,30 @@ export class RegistrationPage implements OnInit {
 
         } else {
             console.log('in the invaf=lid');
-          //  if(this.form.step == response.user.form.step) {
+            //  if(this.form.step == response.user.form.step) {
             if (this.form.step === 1) {
-                    response.user.form.password.first = this.form.password.first;
-                    response.user.form.password.second = this.form.password.second;
-                    response.user.form.agree = this.form.agree;
-                    response.user.form.agreeSendEmails = this.form.agreeSendEmails;
-                } else if (this.form.step === 2) {
-                    response.user.form.purposes = this.form.purposes;
-                } else if (this.form.step === 3) {
-                    console.log('in the 3 step');
-                    response.user.form.veggieReasons = this.form.veggieReasons;
-                    response.user.form.interests = this.form.interests;
-                    response.user.form.animals = this.form.animals;
-                }
+                response.user.form.password.first = this.form.password.first;
+                response.user.form.password.second = this.form.password.second;
+                response.user.form.agree = this.form.agree;
+                response.user.form.agreeSendEmails = this.form.agreeSendEmails;
+            } else if (this.form.step === 2) {
+                response.user.form.purposes = this.form.purposes;
+            } else if (this.form.step === 3) {
+                console.log('in the 3 step');
+                response.user.form.veggieReasons = this.form.veggieReasons;
+                response.user.form.interests = this.form.interests;
+                response.user.form.animals = this.form.animals;
+            }
             this.form = response.user.form;
             this.formKeys = this.getKeys(this.form);
-            setTimeout( () => {
-                    console.log('in et timeout');
-                    const y = this.form.step === 3 ? $('.border-red').offset().top + 2100 : $('.border-red').offset().top ;
-                    console.log(y);
-                    // alert('will scroll to point');
-                    this.content.scrollToPoint(null, y, 300);
-                }, 300 );
-           // }
-
+            setTimeout(() => {
+                console.log('in et timeout');
+                const y = this.form.step === 3 ? $('.border-red').offset().top + 2100 : $('.border-red').offset().top;
+                console.log(y);
+                // alert('will scroll to point');
+                this.content.scrollToPoint(null, y, 300);
+            }, 300);
+            // }
 
 
             this.err = response.user.errors.form.children;
