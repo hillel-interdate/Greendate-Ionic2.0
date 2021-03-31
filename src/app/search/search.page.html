@@ -21,7 +21,7 @@
       <ion-input class="search-by-name ion-padding" (ionFocus)="hideFooter()" [(ngModel)]="form.form.username.value" (ionBlur)="showFooter()" placeholder="{{ form.form.username.label }}:" type="text"></ion-input>
     </div>
 
-    <ion-button expand="block" color="danger" class="btn" (click)="toSearchResultsPage('search-form-2')">{{ form.form.submit }}</ion-button>
+    <ion-button expand="block"  color="danger" class="btn" (click)="toSearchResultsPage('search-form-2')">{{ form.form.submit }}</ion-button>
     <div class="or">או</div>
     <ion-button class="adv-search btn" (click)="toAdvancedPage()" expand="block">חיפוש מתקדם</ion-button>
   </div>
