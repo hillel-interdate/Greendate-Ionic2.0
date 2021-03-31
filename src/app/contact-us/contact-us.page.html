@@ -4,19 +4,19 @@
   </div>
   <ion-list lines="none">
     <ion-item *ngIf="!logged_in" [ngClass]="{'border-red': errors?.email}">
-      <ion-input (ionFocus)="onOpenKeyboard()" (ionBlur)="onHideKeyboard()" [(ngModel)]="form?.email.value"
+      <ion-input [(ngModel)]="form?.email.value"
                  placeholder="{{ form?.email.label }}" type="email"></ion-input>
     </ion-item>
     <div class="err">{{ errors.email }}</div>
 
     <ion-item [ngClass]="{'border-red': errors.subject}">
-      <ion-input  (ionFocus)="onOpenKeyboard()" (ionBlur)="onHideKeyboard()" [(ngModel)]="form?.subject.value" placeholder="{{ form?.subject.label }}"
+      <ion-input   [(ngModel)]="form?.subject.value" placeholder="{{ form?.subject.label }}"
                  type="text"></ion-input>
     </ion-item>
     <div class="err">{{ errors.subject }}</div>
 
     <ion-item [ngClass]="{'border-red': errors.text}">
-      <ion-textarea (ionFocus)="onOpenKeyboard()" (ionBlur)="onHideKeyboard()" [(ngModel)]="form?.text.value" rows="8"
+      <ion-textarea  [(ngModel)]="form?.text.value" rows="8"
                     placeholder="{{ form?.text.label }}">
       </ion-textarea>
     </ion-item>

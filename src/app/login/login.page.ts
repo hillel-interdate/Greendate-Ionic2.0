@@ -46,15 +46,6 @@ export class LoginPage implements OnInit {
               ) {}
 
   ngOnInit() {
-    // window.addEventListener('keyboardWillShow', () => {
-    //   $('.small-btnim').css({'padding-bottom': '8px'});
-    // });
-    // window.addEventListener('keyboardWillHide', () => {
-    //   $('.small-btnim').css({'padding-bottom': '40px'});
-    // });
-
-    this.splashScreen.hide();
-    this.api.showLoad();
     this.api.http.get(this.api.url + '/open_api/v2/login', this.api.header).subscribe((data: any) => {
       this.form = data;
     }, err => console.log(err));
@@ -72,11 +63,9 @@ export class LoginPage implements OnInit {
         }
       });
     });
-    this.api.hideLoad();
   }
 
   ionViewWillEnter() {
-    // alert('view');
     this.api.pageName = 'LoginPage';
     $('.footerMenu').hide();
     this.api.storage.get('username').then((username) => {
@@ -84,7 +73,6 @@ export class LoginPage implements OnInit {
       this.user.name = username;
       this.form.login.password.value = '';
     });
-    this.api.hideLoad();
   }
 
   loginFB() {

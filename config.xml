@@ -1,7 +1,10 @@
 <?xml version='1.0' encoding='utf-8'?>
 <widget id="il.co.greendate" version="2.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>GreenDate</name>
-    <description>גרינדייט - אתר הכרויות לצמחונים וטבעונים. מציאת שותף לערכים ולאורח החיים קלה הרבה יותר כאשר מחפשים הכרויות לצמחונים וטבעונים במקום שמוקדש כולו לבני הקהילה. הכרויות לצמחונים, הכרויות לטבעונים - זה המקום למצוא אהבה ללא פשרות.</description>
+    <description>גרינדייט - אתר הכרויות לצמחונים וטבעונים. מציאת שותף לערכים ולאורח החיים קלה הרבה יותר כאשר מחפשים
+        הכרויות לצמחונים וטבעונים במקום שמוקדש כולו לבני הקהילה. הכרויות לצמחונים, הכרויות לטבעונים - זה המקום למצוא
+        אהבה ללא פשרות.
+    </description>
     <author email="contact@interdate-ltd.co.il" href="http://interdate-ltd.co.il/">Interdate</author>
     <content src="index.html" />
     <access origin="*" />
@@ -12,13 +15,12 @@
     <allow-intent href="mailto:*" />
     <allow-intent href="geo:*" />
     <preference name="ScrollEnabled" value="false" />
-    <preference name="android-minSdkVersion" value="19" />
     <preference name="BackupWebStorage" value="none" />
     <preference name="SplashMaintainAspectRatio" value="true" />
     <preference name="FadeSplashScreenDuration" value="300" />
     <preference name="SplashShowOnlyFirstTime" value="false" />
     <preference name="SplashScreen" value="screen" />
-    <preference name="android-windowSoftInputMode" value="adjustResize" />
+    <preference name="orientation" value="portrait" />
     <platform name="android">
         <edit-config file="AndroidManifest.xml" mode="merge" target="/manifest/application" xmlns:android="http://schemas.android.com/apk/res/android">
             <application android:networkSecurityConfig="@xml/network_security_config" />
@@ -66,6 +68,11 @@
     <plugin name="cordova-plugin-telerik-imagepicker" spec="^2.3.3">
         <variable name="PHOTO_LIBRARY_USAGE_DESCRIPTION" value=" " />
     </plugin>
+    <plugin name="cordova-plugin-ionic-webview" spec="^2.5.1">
+        <variable name="ANDROID_SUPPORT_ANNOTATIONS_VERSION" value="27.+" />
+    </plugin>
+    <plugin name="cordova-plugin-enable-multidex" spec="^0.2.0" />
+    <plugin name="cordova-plugin-statusbar" spec="^2.4.2" />
     <platform name="ios">
         <icon height="57" src="resources/ios/icon/icon.png" width="57" />
         <icon height="114" src="resources/ios/icon/icon@2x.png" width="114" />
@@ -119,9 +126,4 @@
             <string>GreenDate would like to help you find users near you</string>
         </edit-config>
     </platform>
-    <plugin name="cordova-plugin-ionic-webview" spec="^2.5.1">
-        <variable name="ANDROID_SUPPORT_ANNOTATIONS_VERSION" value="27.+" />
-    </plugin>
-    <plugin name="cordova-plugin-enable-multidex" spec="^0.2.0" />
-    <plugin name="cordova-plugin-statusbar" spec="^2.4.2" />
 </widget>

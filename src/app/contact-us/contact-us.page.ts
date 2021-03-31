@@ -37,16 +37,6 @@ export class ContactUsPage {
                 this.logged_in = true;
             }
         });
-
-
-    }
-
-    onOpenKeyboard() {
-        $('.footerMenu').hide();
-    }
-
-    onHideKeyboard() {
-        $('.footerMenu').show();
     }
 
     formSubmit() {
@@ -60,7 +50,7 @@ export class ContactUsPage {
             this.errors.subject = 'נא להזין נושא פניה';
             isValid = false;
         }
-        if ( this.form.text.value.trim() === '') {
+        if (this.form.text.value.trim() === '') {
             this.errors.text = 'נא להזין הודעה';
             isValid = false;
         }
@@ -114,14 +104,9 @@ export class ContactUsPage {
 
     ionViewWillEnter() {
         this.api.pageName = 'ContactUsPage';
-        window.addEventListener('keyboardWillShow', this.onOpenKeyboard);
-        window.addEventListener('keyboardWillHide', this.onHideKeyboard);
-      //  alert(this.api.pageName);
     }
 
     ionViewWillLeave() {
-        window.removeEventListener('keyboardWillShow', this.onOpenKeyboard);
-        window.removeEventListener('keyboardWillHide', this.onHideKeyboard);
     }
 
 }

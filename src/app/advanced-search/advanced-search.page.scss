@@ -1,47 +1,40 @@
+ion-content{
+  --padding-bottom: 64px;
+}
+.select-text {
+  margin-top: 16px;
+  position: absolute;
+  left: 0;
+  max-width: calc(100% - 110px);
+}
 
+.item.item-md .checkbox-md[item-right] {
+  margin: 11px 10px 10px 10px;
+}
 
-  .select-text {
-    margin-top: 16px;
-    position: absolute;
-    left: 0;
-    max-width: calc(100% - 110px);
-  }
-  .item.item-md .checkbox-md[item-right] {
-    margin: 11px 10px 10px 10px;
-  }
+ion-button {
+  height: 40px;
+  text-align: center;
+}
 
-  ion-button {
-    height: 40px;
-    text-align: center;
-  }
+.submit {
+  margin-bottom: 70px;
+}
 
-  .submit {
-    margin-bottom: 70px;
-  }
+.border-top {
+  padding: 17px 5px;
+}
 
-  .border-top {
-    padding: 17px 5px;
-  }
+ion-select {
+  float: left;
+  padding: 7px 0 7px 5px;
+  width: 100%;
+  position: relative;
+  bottom: 20px;
+  text-align: left;
+}
 
-  ion-select {
-    float: left;
-    padding: 7px 0 7px 5px;
-    width: 100%;
-    position: relative;
-    bottom: 20px;
-    text-align: left;
-  }
-
-  ion-checkbox {
-    position: absolute;
-    left: 0px;
-  }
-
-  ion-content {
-    display: flex;
-  }
-
-  .ios .container {
-    //max-height: calc( 100% - 64px );
-    //overflow: auto;
-  }
+ion-checkbox {
+  position: absolute;
+  left: 16px;
+}

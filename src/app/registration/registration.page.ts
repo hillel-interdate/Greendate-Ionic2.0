@@ -190,10 +190,6 @@ export class RegistrationPage implements OnInit {
                 }
 
             };
-            // if(this.form.flow_signUpApi_instance){
-            // data.flow_signUpApi_instance = this.form.flow_signUpApi_instance.value;
-            // data.flow_signUpApi_step = this.form.flow_signUpApi_step.value;
-            // }
 
             data = JSON.stringify(data);
 

@@ -5,67 +5,77 @@
 -->
 <ion-header>
 
-  <ion-toolbar>
-    <ion-title>dialog</ion-title>
-  </ion-toolbar>
+    <ion-toolbar>
+        <ion-title>dialog</ion-title>
+    </ion-toolbar>
 
 </ion-header>
 
 <div (click)="back()" class="back-btn">
-  <ion-icon name="chevron-forward"></ion-icon>
+    <ion-icon name="chevron-forward"></ion-icon>
 </div>
 
 <ion-content #content [scrollEvents]="true">
-  <!--<div class="no_results" *ngIf="messages">{{ texts?.no_results }}</div>-->
-  <ion-card class="user-block">
-    <ion-list lines="none">
-    <ion-item>
-      <!--<ion-avatar (click)="toProfilePage()" item-left>
-      </ion-avatar>-->
-      <p class="dialog-avatar" *ngIf="texts?.photo != ''" (click)="toProfilePage()" [ngStyle]="{ 'background-image': 'url(' + texts?.photo + '.jpg)'}">{{texts.a_conversation_with}} {{texts.name}}</p>
-      <p class="dialog-avatar" *ngIf="texts.photo == ''" (click)="toProfilePage()" [ngStyle]="{ 'background-image': 'url(' + api.url + '/images/no_photo_' + user.gender + '.jpg' + ')'}">{{texts.a_conversation_with}} {{texts.name}}</p>
-    </ion-item>
-    </ion-list>
-  </ion-card>
-  <div class="messages">
-    <ion-card  *ngFor="let msg of messages; let i = index" [ngClass]="{'other-msg': user.id == msg?.from }" class="usr_msg msg-item">
-      <ion-grid>
-        <ion-row>
-          <ion-col width-57>
-            <ion-card-content *ngIf="msg?.text.length > 0" class="mtext" [innerHTML]="msg?.text" item-left>
-            <!--{{msg?.text}}-->
-          </ion-card-content>
-          <ion-card-content item-left *ngIf="msg?.text.length === 0 && msg?.hasPoints == 0">
-            {{ msg?.paymentText }} <span class="linkPay" color="blue" (click)="subscription()">{{ msg?.payLinkText }}</span>
-          </ion-card-content>
-          <ion-card-content item-left *ngIf="msg?.text.length === 0 && msg?.hasPoints == 1">
-            {{ msg?.paymentText }} <span class="linkPay" color="blue" (click)="subscription()">{{ msg?.payLinkText }}</span> או
-            <span color="blue" class="linkPay" (click)="useFreePointToReadMessage(msg)">{{ msg?.pointsText }}</span>
-          </ion-card-content>
-          </ion-col>
-
-          <ion-col  class="date-col"> <ion-card-content class="date" item-right>
-            {{msg.dateTime}}
-            <!--<ion-icon *ngIf="user?.id == msg.from" name="checkmark"></ion-icon>-->
-
-          </ion-card-content>
-          </ion-col>
-        </ion-row>
-      </ion-grid>
-      <ion-icon *ngIf="user?.id != msg.from && !msg.isRead && (msg.delivered === true || msg.delivered == undefine) " name="done-all" class="v-ios-icon"></ion-icon>
-      <ion-icon *ngIf="msg.delivered === false" name="checkmark" class="v-ios-icon"></ion-icon>
-      <ion-icon color="danger" *ngIf="user?.id != msg.from && msg.isRead" name="done-all" class="v-ios-icon"></ion-icon>
-      <ion-icon class="trash-icon" (click)="deleteMessage(msg, i)" name="trash"></ion-icon>
+    <!--<div class="no_results" *ngIf="messages">{{ texts?.no_results }}</div>-->
+    <ion-card class="user-block">
+        <ion-list lines="none">
+            <ion-item>
+                <!--<ion-avatar (click)="toProfilePage()" item-left>
+                </ion-avatar>-->
+                <p class="dialog-avatar" *ngIf="texts?.photo != ''" (click)="toProfilePage()"
+                   [ngStyle]="{ 'background-image': 'url(' + texts?.photo + '.jpg)'}">{{texts.a_conversation_with}} {{texts.name}}</p>
+                <p class="dialog-avatar" *ngIf="texts.photo == ''" (click)="toProfilePage()"
+                   [ngStyle]="{ 'background-image': 'url(' + api.url + '/images/no_photo_' + user.gender + '.jpg' + ')'}">{{texts.a_conversation_with}} {{texts.name}}</p>
+            </ion-item>
+        </ion-list>
     </ion-card>
-  </div>
+    <div class="messages">
+        <ion-card *ngFor="let msg of messages; let i = index" [ngClass]="{'other-msg': user.id == msg?.from }"
+                  class="usr_msg msg-item">
+            <ion-grid>
+                <ion-row>
+                    <ion-col width-57>
+                        <ion-card-content *ngIf="msg?.text.length > 0" class="mtext" [innerHTML]="msg?.text" item-left>
+                            <!--{{msg?.text}}-->
+                        </ion-card-content>
+                        <ion-card-content item-left *ngIf="msg?.text.length === 0 && msg?.hasPoints == 0">
+                            {{ msg?.paymentText }} <span class="linkPay" color="blue"
+                                                         (click)="subscription()">{{ msg?.payLinkText }}</span>
+                        </ion-card-content>
+                        <ion-card-content item-left *ngIf="msg?.text.length === 0 && msg?.hasPoints == 1">
+                            {{ msg?.paymentText }} <span class="linkPay" color="blue"
+                                                         (click)="subscription()">{{ msg?.payLinkText }}</span> או
+                            <span color="blue" class="linkPay"
+                                  (click)="useFreePointToReadMessage(msg)">{{ msg?.pointsText }}</span>
+                        </ion-card-content>
+                    </ion-col>
+
+                    <ion-col class="date-col">
+                        <ion-card-content class="date" item-right>
+                            {{msg.dateTime}}
+                            <!--<ion-icon *ngIf="user?.id == msg.from" name="checkmark"></ion-icon>-->
+
+                        </ion-card-content>
+                    </ion-col>
+                </ion-row>
+            </ion-grid>
+            <ng-container *ngIf="user.id !== msg.from">
+              <ion-icon color="danger" *ngIf="msg.isRead" name="checkmark-done" class="v-ios-icon"></ion-icon>
+              <ion-icon *ngIf="!msg?.isRead && msg?.delivered" name="checkmark-done" class="v-ios-icon"></ion-icon>
+              <ion-icon *ngIf="!msg?.isRead && !msg?.delivered" name="checkmark" class="v-ios-icon"></ion-icon>
+            </ng-container>
+            <ion-icon class="trash-icon" (click)="deleteMessage(msg, i)" name="trash"></ion-icon>
+        </ion-card>
+    </div>
 
 
-  <ion-toolbar *ngIf="messages" id="form-dialog">
-    <ion-textarea  id="dialog-msg" (click)="onOpenKeyboard()" (ionBlur)="onCloseKeyboard()" [(ngModel)]="message" placeholder=""></ion-textarea>
-    <div class="clear-both"></div>
-    <ion-button class="send-msg"   (click)="sendMessage()" color="danger">שלח</ion-button>
-  </ion-toolbar>
-  <ion-infinite-scroll #scroll position="top"  threshold="60%" (ionInfinite)="moreMessages($event)">
-    <ion-infinite-scroll-content></ion-infinite-scroll-content>
-  </ion-infinite-scroll>
+    <ion-toolbar *ngIf="messages" id="form-dialog">
+        <ion-textarea id="dialog-msg" (click)="onOpenKeyboard()" (ionBlur)="onCloseKeyboard()" [(ngModel)]="message"
+                      placeholder=""></ion-textarea>
+        <div class="clear-both"></div>
+        <ion-button class="send-msg" (click)="sendMessage()" color="danger">שלח</ion-button>
+    </ion-toolbar>
+    <ion-infinite-scroll #scroll position="top" threshold="60%" (ionInfinite)="moreMessages($event)">
+        <ion-infinite-scroll-content></ion-infinite-scroll-content>
+    </ion-infinite-scroll>
 </ion-content>
