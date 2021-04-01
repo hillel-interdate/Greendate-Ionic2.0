@@ -10,10 +10,10 @@
 
 
     <div class="login-form" vertical="bottom" style="position: absolute; bottom: 0; right: 0; left: 0;">
-        <div *ngIf="fbId" class="text-login-fb">
-            <h2>{{form?.login.facebook.login_text_h }}</h2>
-            <p>{{form?.login.facebook.login_text_p  }}</p>
-        </div>
+<!--        <div *ngIf="fbId" class="text-login-fb">-->
+<!--            <h2>{{form?.login.facebook.login_text_h }}</h2>-->
+<!--            <p>{{form?.login.facebook.login_text_p  }}</p>-->
+<!--        </div>-->
         <ion-input [(ngModel)]="form?.login.username.value" type="text"
                    placeholder="{{ form?.login.username.label }}"></ion-input>
         <ion-input [(ngModel)]="form?.login.password.value" type="password"
@@ -26,7 +26,7 @@
             <ion-button color="danger" (click)="fingerAuthentication()" *ngIf="fingerAuth">
                 <ion-icon slot="icon-only" name="finger-print"></ion-icon>
             </ion-button>
-            <ion-button color="danger"  (click)="loginFB()"><ion-icon slot="icon-only" name="logo-facebook"></ion-icon></ion-button>
+<!--            <ion-button color="danger"  (click)="loginFB()"><ion-icon slot="icon-only" name="logo-facebook"></ion-icon></ion-button>-->
         </div>
         <div class="small-btnim ion-padding">
 
