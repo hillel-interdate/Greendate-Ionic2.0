@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="il.co.greendate" version="2.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="il.co.greendate" version="2.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>GreenDate</name>
     <description>גרינדייט - אתר הכרויות לצמחונים וטבעונים. מציאת שותף לערכים ולאורח החיים קלה הרבה יותר כאשר מחפשים
         הכרויות לצמחונים וטבעונים במקום שמוקדש כולו לבני הקהילה. הכרויות לצמחונים, הכרויות לטבעונים - זה המקום למצוא
@@ -123,6 +123,9 @@
             <string>GreenDate would like to help you share photos of yourself with other users</string>
         </config-file>
         <edit-config file="*-Info.plist" mode="merge" target="NSLocationWhenInUseUsageDescription">
+            <string>GreenDate would like to help you find users near you</string>
+        </edit-config>
+        <edit-config file="*-Info.plist" mode="merge" target="NSLocationAlwaysDescription">
             <string>GreenDate would like to help you find users near you</string>
         </edit-config>
     </platform>
