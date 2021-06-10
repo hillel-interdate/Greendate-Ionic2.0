@@ -57,7 +57,7 @@ export class AppComponent implements AfterViewInit {
 
 
     androidVesion = '1.1.2';
-    iosVersion = '1.0.0';
+    iosVersion = 2;
 
     constructor(public platform: Platform,
                 public  menu: MenuController,

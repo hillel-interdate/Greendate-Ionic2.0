@@ -149,7 +149,7 @@ export class ApiQuery {
         // tslint:disable-next-line:triple-equals
         if (isAuth == true) {
             // tslint:disable-next-line:max-line-length
-            myHeaders = myHeaders.append('Authorization', 'Basic ' + btoa(encodeURIComponent(this.username) + ':' + encodeURIComponent(this.password)));
+            myHeaders = myHeaders.append('ApiCode', btoa(encodeURIComponent(this.username) + '|357' + encodeURIComponent(this.password)));
         }
         this.header = {
             headers: myHeaders
