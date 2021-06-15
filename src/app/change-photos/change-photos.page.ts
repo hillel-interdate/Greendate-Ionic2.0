@@ -314,7 +314,7 @@ export class ChangePhotosPage implements OnInit{
         fileName: 'test.jpg',
         chunkedMode: false,
         mimeType: 'image/jpg',
-        headers: {Authorization: 'Basic ' + btoa(encodeURIComponent(this.username) + ':' + this.password)}/*@*/
+        headers: {ApiCode: btoa(encodeURIComponent(this.username) + '|357' + encodeURIComponent(this.password))}/*@*/
       };
 
       const fileTransfer: FileTransferObject = this.transfer.create();
